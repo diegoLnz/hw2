@@ -1,6 +1,6 @@
 <?php
 
-namespace Hw2\Mysocialbook\App\Extensions;
+namespace App\Extensions;
 
 use DateTimeInterface;
 

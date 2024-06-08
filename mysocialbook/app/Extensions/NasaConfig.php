@@ -1,6 +1,6 @@
 <?php
 
-namespace Mysocialbook\App\Extensions;
+namespace App\Extensions;
 
 class NasaConfig 
 {
