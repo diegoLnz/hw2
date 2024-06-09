@@ -1,20 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Models\User;
 
-Route::get('/', function () {
-    return view('home');
-});
+#region Get
 
-Route::get('home', function () {
-    if(!Session::has('user'))
-        return redirect('login');
+Route::get('login', 'LoginController@login');
 
-    $user = User::where('username', '=', Session::get('user'))->first();
-    return view('home')->with('user', $user);
-});
+Route::get('/', 'HomeController@home');
 
-Route::get('search', function () {
-    return view('search');
-});
+Route::get('home', 'HomeController@home');
+
+Route::get('search', 'SearchController@search');
+
+#endregion
+
+#region Post
+
+#endregion
