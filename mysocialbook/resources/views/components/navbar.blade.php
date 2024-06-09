@@ -1,7 +1,7 @@
 <nav class="nav">
 
     <div class="logo">
-        <img id="logo" src="images/logo.png"></img>
+        <img id="logo" src="{{ asset('images/logo.png') }}"></img>
     </div>
 
     <div class="nav-menu">

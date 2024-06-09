@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function checkIfUserAlreadyExists(username)
 {
-    fetch('Controller/Users/CheckExistingUser.php?username=' + encodeURIComponent(username))
+    fetch('users/checkExistingUser?username=' + encodeURIComponent(username))
         .then(response => response.json())
         .then(data => {
             data.message === 'OK'
