@@ -21,7 +21,12 @@ class LoginController extends Controller
         if (UserBL::validateUserCredentials($username, $password))
             return redirect('login?error=invalid_credentials');
 
-        Session::start();
         Session::put('user', $username);
+    }
+
+    public function logout()
+    {
+        Session::flush();
+        return redirect('login');
     }
 }

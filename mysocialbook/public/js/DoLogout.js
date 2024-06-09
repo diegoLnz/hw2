@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     logoutButton.addEventListener("click", () => {
-        window.location.href = "Configs/DoLogOut.php";
+        window.location.href = "logout";
     });
 });
 
