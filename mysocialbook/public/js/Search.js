@@ -1,4 +1,4 @@
-var baseUrl = "Controller/Users/GetUsersListForSearchForm.php";
+var baseUrl = "users/listforsearch";
 
 document.addEventListener("DOMContentLoaded", function() {
     const searchBox = document.getElementById("search-input");

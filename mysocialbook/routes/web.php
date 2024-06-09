@@ -20,6 +20,10 @@ Route::get('register', 'App\Http\Controllers\RegisterController@register');
 
 Route::get('users/checkExistingUser', 'App\Http\Controllers\UserController@checkExistingUser');
 
+Route::get('users/follow', 'App\Http\Controllers\UserController@followUser');
+
+Route::get('users/listforsearch', 'App\Http\Controllers\UserController@listForSearchForm');
+
 Route::get('nasa/getPicOfTheDay', 'App\Http\Controllers\NasaController@getPicOfTheDay');
 
 #endregion

@@ -24,7 +24,7 @@ class RegisterBL
     
         $validEmail = filter_var($email, FILTER_VALIDATE_EMAIL);
 
-        $user = User::where('username', $username)->first();
+        $user = User::where('LOWER(username) = ?', [strtolower($username)])->first();
 
         return !$atLeastOneFieldEmpty 
         && $confirmPass 

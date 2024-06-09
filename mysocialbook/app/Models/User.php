@@ -42,7 +42,7 @@ class User extends Model
                     ->withTimestamps();
     }
 
-    public function followedUsers()
+    public function followings()
     {
         return $this->belongsToMany("User", "follows", "follower_id", "followed_user_id")
                     ->withTimestamps();
