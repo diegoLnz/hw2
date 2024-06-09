@@ -1,7 +1,17 @@
 document.addEventListener("DOMContentLoaded", async function() {
     const nasaPostContainer = document.getElementById('nasa-post-container');
     const picData = await getNasaAPOD();
-    DisplayNasaPic(picData, nasaPostContainer);
+    if(picData.length == 0)
+    {
+        nasaPostContainer.classList.add('d-none');
+        nasaPostContainer.classList.remove('d-block');
+    }
+    else
+    {
+        nasaPostContainer.classList.add('d-block');
+        DisplayNasaPic(picData, nasaPostContainer);
+    }
+
 });
 
 async function getNasaAPOD()

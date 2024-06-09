@@ -10,7 +10,7 @@
     @stack('styles')
     @stack('scripts')
 
-    <title>MySocialBook - @yield('title')</title>
+    <title>@yield('title') - MySocialBook</title>
 </head>
 <body class="radio-canada-normal">
 

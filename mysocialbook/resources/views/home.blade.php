@@ -10,7 +10,7 @@
     <script src="{{ asset('js/callNasa.js') }}" defer></script>
 @endpush
 
-@section('title', '')
+@section('title', 'Home')
 
 @section('content')
 
@@ -19,6 +19,10 @@
         @include('components.navbar')
 
     </header>
+
+    <div class="content d-none" id="nasa-post-container">
+
+    </div>
 
     @include('components.modal')
 

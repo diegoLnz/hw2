@@ -4,7 +4,7 @@
         <div class="user-image"></div>
         <div class="start-thread-label">Avvia un thread...</div>
         <div class="publish-btn btn-disabled">Pubblica</div>
-        <input type="hidden" id="user-id" value="{{}}">
+        <input type="hidden" id="user-id" value="{{ $user->id }}">
     </div>
 
     <!--STRUTTURA POST-->
