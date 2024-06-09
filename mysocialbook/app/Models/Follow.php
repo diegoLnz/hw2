@@ -8,7 +8,7 @@ class Follow extends Model
 {
     protected $table = "follows";
     protected $primaryKey = "id";
-    public $timestamps = false;
+    public $timestamps = true;
 
     public function followedUser()
     {

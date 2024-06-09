@@ -25,8 +25,9 @@ class Post extends Model
         return $this->hasMany("Comment", "post_id");
     }
 
-    public function likes()
+    public function likedByUsers()
     {
-        return $this->hasMany("Like", "post_id");
+        return $this->belongsToMany("User", "likes", "post_id", "user_id")
+                    ->withTimestamps();
     }
 }

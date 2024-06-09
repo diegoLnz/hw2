@@ -58,6 +58,8 @@ CREATE TABLE IF NOT EXISTS likes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     post_id INT,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (post_id) REFERENCES posts(id)
 );
@@ -66,6 +68,8 @@ CREATE TABLE IF NOT EXISTS follows (
     id INT AUTO_INCREMENT PRIMARY KEY,
     follower_id INT,
     followed_user_id INT,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
     FOREIGN KEY (follower_id) REFERENCES users(id),
     FOREIGN KEY (followed_user_id) REFERENCES users(id),
     UNIQUE (follower_id, followed_user_id)
