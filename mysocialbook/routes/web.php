@@ -26,6 +26,8 @@ Route::get('users/listforsearch', 'App\Http\Controllers\UserController@listForSe
 
 Route::get('nasa/getPicOfTheDay', 'App\Http\Controllers\NasaController@getPicOfTheDay');
 
+Route::get('posts/like', 'App\Http\Controller\ThreadController@likeThread');
+
 #endregion
 
 #region Post

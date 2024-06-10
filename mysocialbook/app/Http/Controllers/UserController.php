@@ -48,7 +48,14 @@ class UserController extends Controller
             return $response->toJson();
         }
 
-        $follower->follow($followedUser);
+        if (!$follower->isFollowing($followedUser))
+        {
+            $follower->follow($followedUser);
+        }
+        else
+        {
+            $follower->unfollow($followedUser);
+        }
         
         $response = ApiExtensions::setResponse("OK", "", 200);
         return $response->toJson();

@@ -6,6 +6,8 @@ use App\Extensions\AccountManager;
 use App\Extensions\ImageUploader;
 use App\Models\Post;
 use App\Models\Image;
+use App\Models\Like;
+use App\Models\User;
 use Request;
 
 class ThreadController extends Controller
@@ -37,5 +39,28 @@ class ThreadController extends Controller
         $post->save();
 
         return redirect()->back()->with('success', 'Post creato con successo');
+    }
+
+    public function likeThread()
+    {
+        $userId = Request::input('user');
+        $postId = Request::input('post');
+        if (!$userId || !$postId)
+            return response()->json(['message' => 'KO', 'error' => 'Parametri mancanti'], 400);
+
+        $user = User::find($userId);
+        $post = Post::find($postId);
+        if (!$user || !$post)
+            return response()->json(['message' => 'KO', 'error' => 'Parametri errati'], 400);
+
+        $existingLike = $user->hasLikedPost($post);
+
+        if ($existingLike) {
+            $user->unlikePost($post);
+            return response()->json(['message' => 'OK', 'error' => 'Hai tolto il "mi piace" a questo post']);
+        }
+
+        $user->likePost($post);
+        return response()->json(['message' => 'OK', 'error' => 'Hai messo "mi piace" a questo post']);
     }
 }
