@@ -1,4 +1,3 @@
-//ToDo: Adapt code for mysocialbook database
 var baseUrl = "Controller/Posts/GetFollowedUsersPosts.php?id=";
 var userId = document.getElementById("user-id").value;
 

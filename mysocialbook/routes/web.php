@@ -30,6 +30,8 @@ Route::get('posts/like', 'App\Http\Controller\ThreadController@likeThread');
 
 Route::get('posts/getByUserId', 'App\Http\Controller\ThreadController@getPostsByUserId');
 
+Route::get('posts/getFollowedUsersPosts', 'App\Http\Controller\ThreadController@getFollowedUsersPosts');
+
 #endregion
 
 #region Post
@@ -39,5 +41,7 @@ Route::post('login', 'App\Http\Controllers\LoginController@logUser');
 Route::post('register', 'App\Http\Controllers\RegisterController@registerUser');
 
 Route::post('posts/upload', 'App\Http\Controller\ThreadController@uploadThread');
+
+Route::post('comments/upload', 'App\Http\Controllers\CommentController@uploadComment');
 
 #endregion

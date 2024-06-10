@@ -9,6 +9,7 @@ use App\Models\Image;
 use App\Models\User;
 use App\Models\UserData;
 use App\BusinessLogic\UserBL;
+use App\BusinessLogic\ThreadBL;
 use Request;
 
 class ThreadController extends Controller
@@ -76,8 +77,33 @@ class ThreadController extends Controller
         if (!$user){
             response()->json(['message' => 'KO', 'error' => 'Parametri errati'], 400);
         }
-        
+
         $posts = UserBL::getUserPostsArrayData($user);
+
+        return response()->json($posts, 200);
+    }
+
+    public function getFollowedUsersPosts()
+    {
+        $userId = Request::get('id');
+        if (!$userId){
+            response()->json(['message' => 'KO', 'error' => 'Parametri mancanti'], 400);
+        }
+
+        $user = User::find($userId);
+        if (!$user){
+            response()->json(['message' => 'KO', 'error' => 'Parametri errati'], 400);
+        }
+
+        $followedUserIds = $user->followings()->pluck('followed_user_id');
+
+        $postList = Post::whereIn('user_id', $followedUserIds)->orderBy('publish_date', 'desc')->get();
+        $posts = [];
+
+        foreach ($postList as $post)
+        {
+            $posts[] = ThreadBL::formatPostAsArray($post);
+        }
 
         return response()->json($posts, 200);
     }
