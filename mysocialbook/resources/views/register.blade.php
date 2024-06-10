@@ -15,7 +15,7 @@
     <section class="register-section">
         
         <form id="register-form" action="register" method="POST"> 
-            
+            @csrf
             <div class="register-box">
 
                 <div class="register-box-header">

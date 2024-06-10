@@ -2,37 +2,11 @@
 
 namespace App\Extensions;
 
-enum ImageValidationResult: string
-{
-    case INVALID_EXTENSION = "Non è ammessa tale estensione";
-    case UPLOAD_ERRORS = "Vi sono stati errori durante l'upload del file";
-    case FILE_SIZE_EXCEEDED = "Il file supera la dimensione massima supportata";
-    case OK = "OK";
-}
-
-class Image {
-    public $name;
-    public $tmpName;
-    public $size;
-    public $type;
-    public $extension;
-    public $error;
-
-    public function __construct($file)
-    {
-        $this->name = $file['name'];
-        $this->tmpName = $file['tmp_name'];
-        $this->size = $file['size'];
-        $this->type = $file['type'];
-        $this->extension = strtolower(
-            pathinfo($file['name'], PATHINFO_EXTENSION)
-        );
-        $this->error = $file['error'];
-    }
-}
+use Request,Storage;
+use App\Extensions\AccountManager;
+use App\Models\User;
 
 class ImageUploader {
-    private $targetDirectory;
     private $allowedExtensions = ['jpg', 'jpeg', 'png'];
 
     /**
@@ -40,46 +14,39 @@ class ImageUploader {
      */
     private $maxFileSize = 10000000;
 
-    public function __construct($targetDirectory)
-    {
-        $this->targetDirectory = $targetDirectory;
-    }
+    public function __construct()
+    {}
 
-    public function uploadFile($fileInputName): string
+    public function upload(Request $request, $fieldName)
     {
-        if (!is_dir($this->targetDirectory)) {
-            if (!mkdir($this->targetDirectory, 0777, true) && !is_dir($this->targetDirectory)) {
-                return ImageValidationResult::UPLOAD_ERRORS->value;
-            }
+        if (!$request->hasFile($fieldName) || !$request->file($fieldName)->isValid()) {
+            return ['error' => 'Nessun file caricato o file non valido'];
         }
 
-        if (!isset($_FILES[$fileInputName]))
-            return ImageValidationResult::UPLOAD_ERRORS->value;
+        $file = $request->file($fieldName);
+        
+        if (!in_array($file->getClientOriginalExtension(), $this->allowedExtensions)) {
+            return ['error' => 'Non è ammessa tale estensione'];
+        }
+        
+        if ($file->getSize() > $this->maxFileSize) {
+            return ['error' => 'Il file supera la dimensione massima supportata'];
+        }
 
-        $image = new Image($_FILES[$fileInputName]);
+        $user = AccountManager::currentUser();
 
-        $validationResult = $this->validateFile($image);
-        if ($validationResult !== ImageValidationResult::OK)
-            return $validationResult->value;
+        if (!$user) {
+            return ['error' => 'Utente non autenticato'];
+        }
 
-        $targetPath = $this->targetDirectory . '/' . basename($image->name);
-
-        return move_uploaded_file($image->tmpName, $targetPath) 
-            ? ImageValidationResult::OK->value 
-            : ImageValidationResult::UPLOAD_ERRORS->value;
+        $userDirectory = 'posts/' . $user->id;
+        $fileName = $this->getFileName($user, $userDirectory, $file);
+        return ['path' => $file->storeAs($userDirectory, $fileName, 'public')];
     }
 
-    private function validateFile(Image $file): ImageValidationResult
+    private function getFileName(User $user, string $directory, $file)
     {
-        if(!in_array($file->extension, $this->allowedExtensions))
-            return ImageValidationResult::INVALID_EXTENSION;
-
-        if($file->error != UPLOAD_ERR_OK)
-            return ImageValidationResult::UPLOAD_ERRORS;
-
-        if($file->size > $this->maxFileSize)
-            return ImageValidationResult::FILE_SIZE_EXCEEDED;
-
-        return ImageValidationResult::OK;
+        $fileCount = count(Storage::files($directory));
+        return 'post' . ($fileCount + 1) . '.' . $file->getClientOriginalExtension();
     }
 }

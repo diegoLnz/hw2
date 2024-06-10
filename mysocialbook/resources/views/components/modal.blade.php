@@ -1,4 +1,5 @@
-<form action="Configs/UploadThread.php" method="POST" enctype="multipart/form-data">
+<form action="posts/upload" method="POST" enctype="multipart/form-data">
+    @csrf
     <div id="new-thread-modal" class="modal d-none">
         <div id="new-thread-text-div">
             <p id="new-thread-text">Nuovo thread</p>

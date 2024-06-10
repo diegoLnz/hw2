@@ -18,8 +18,8 @@ class LoginController extends Controller
         $username = Request::post('username');
         $password = Request::post('password');
 
-        if (UserBL::validateUserCredentials($username, $password))
-            return redirect('login?error=invalid_credentials');
+        if (!UserBL::validateUserCredentials($username, $password))
+            return redirect('login')->withErrors(['invalid_credentials' => 'Username o password errati']);
 
         Session::put('user', $username);
     }

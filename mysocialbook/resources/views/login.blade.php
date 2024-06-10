@@ -11,7 +11,7 @@
     <section class="login-section">
         
         <form id="login-form" action="login" method="POST"> 
-            
+            @csrf
             <div class="login-form-div">
                 <div class="access-label">Accedi con il tuo account MySocialBook</div>
 
@@ -21,21 +21,10 @@
                     <input type="submit" class="login-submit-btn" value="Accedi">
                 </div>
 
-                {{ $error = Request::get('error') }}
-                @if($error != null)
-
-                    @if(strtolower($error) == "invalid_credentials")
-
-                        <p class='login-error'>Username o password errati!</p>
-
-                    @elseif(strtolower($error) == "generic_error")
-
-                        <p class='login-error'>Errore nel server</p>
-
-                    @endif
-
-                @endif
-                
+                @error('invalid_credentials')
+                <p class='login-error'>Username o password errati!</p>
+                @enderror    
+                            
                 <a class="forgot-pass" href="#">Password dimenticata?</a>
                 
                 <div class="separer"><span>o</span></div>

@@ -34,4 +34,6 @@ Route::post('login', 'App\Http\Controllers\LoginController@logUser');
 
 Route::post('register', 'App\Http\Controllers\RegisterController@registerUser');
 
+Route::post('posts/upload', 'App\Http\Controller\ThreadController@uploadThread');
+
 #endregion
