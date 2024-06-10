@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
 async function getNasaAPOD()
 {
-    return await fetch("Controller/Nasa/GetPicOfTheDay.php")
+    return await fetch("nasa/GetPicOfTheDay")
         .then(response => response.json());
 }
 

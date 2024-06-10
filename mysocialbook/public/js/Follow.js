@@ -15,7 +15,7 @@ async function toggleFollow()
 {
     const username = document.getElementById("hidden-user").value;
     const usernameToFollow = document.getElementById("hidden-user-to-follow").value;
-    return await fetch("users/follow?user=" + username + "&follow=" + usernameToFollow)
+    return await fetch("users/follow/" + username + "/" + usernameToFollow)
         .then(response => response.json());
 }
 

@@ -13,13 +13,13 @@ Route::middleware([CheckAuthenticated::class])->group(function() {
     Route::get('search', 'App\Http\Controllers\SearchController@search');
     Route::get('personal-info', 'App\Http\Controllers\PersonalInfoController@personalInfo');
     Route::get('register', 'App\Http\Controllers\RegisterController@register');
-    Route::get('users/checkExistingUser', 'App\Http\Controllers\UserController@checkExistingUser');
-    Route::get('users/follow', 'App\Http\Controllers\UserController@followUser');
-    Route::get('users/listforsearch', 'App\Http\Controllers\UserController@listForSearchForm');
+    Route::get('users/checkExistingUser/{username}', 'App\Http\Controllers\UserController@checkExistingUser');
+    Route::get('users/follow/{user}/{follow}', 'App\Http\Controllers\UserController@followUser');
+    Route::get('users/listforsearch/{search}/{user}', 'App\Http\Controllers\UserController@listForSearchForm');
     Route::get('nasa/getPicOfTheDay', 'App\Http\Controllers\NasaController@getPicOfTheDay');
-    Route::get('posts/like', 'App\Http\Controller\ThreadController@likeThread');
-    Route::get('posts/getByUserId', 'App\Http\Controller\ThreadController@getPostsByUserId');
-    Route::get('posts/getFollowedUsersPosts', 'App\Http\Controller\ThreadController@getFollowedUsersPosts');
+    Route::get('posts/like/{user}/{post}', 'App\Http\Controller\ThreadController@likeThread');
+    Route::get('posts/getByUserId/{id}', 'App\Http\Controller\ThreadController@getPostsByUserId');
+    Route::get('posts/getFollowedUsersPosts/{id}', 'App\Http\Controller\ThreadController@getFollowedUsersPosts');
     #endregion
 
     #region Post

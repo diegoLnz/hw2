@@ -95,7 +95,6 @@ function SetUploadScript()
             alert('Per favore carica un file JPG o PNG.');
             fileInput.value = "";
             SetDisplayNone(imagePreview);
-            //uploadButton.textContent = "Carica foto";
         }
     });
 
@@ -105,7 +104,6 @@ function SetUploadScript()
         SetDisplayBlock(uploadButton);
         SetDisplayNone(imagePreview);
         SetDisplayNone(removeImageButton);
-        //uploadButton.textContent = "Carica foto";
 
         if(TextAreaIsEmpty()) {
             publishBtn.classList.add('btn-disabled');
@@ -127,9 +125,6 @@ function ResetNewThreadForm() {
 
     const removeImageButton = document.getElementById('remove-image-button');
     SetDisplayNone(removeImageButton);
-
-    const uploadButton = document.getElementById('upload-button');
-    //uploadButton.textContent = "Carica foto";
 }
 
 function TextAreaIsEmpty()

@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 async function getUsers(searchParam, username) {
-    return await fetch(`${baseUrl}?search=${searchParam}&user=${username}`)
+    return await fetch(`${baseUrl}/${searchParam}/${username}`)
         .then(response => response.json());
 }
 
@@ -47,7 +47,7 @@ function displayUsers(users)
         
         var image = document.createElement("img");
         image.classList.add("profile-image");
-        image.src = "Images/Generic_User.png";
+        image.src = "images/Generic_User.png";
         userDiv.appendChild(image);
 
         usersListDiv.appendChild(userDiv);

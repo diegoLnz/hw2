@@ -1,4 +1,4 @@
-var baseUrl = "Controller/Posts/GetFollowedUsersPosts.php?id=";
+var baseUrl = "posts/getFollowedUsersPosts/";
 var userId = document.getElementById("user-id").value;
 
 document.addEventListener("DOMContentLoaded", async function(){
@@ -136,7 +136,7 @@ function generatePostContentHTML(postBody, postImage, postId, isLiked) {
 
     const commentForm = document.createElement('form');
     commentForm.method = "POST";
-    commentForm.action = "Controller/Comments/UploadComment.php";
+    commentForm.action = "comments/upload";
 
     const userIdInput = document.createElement('input');
     userIdInput.type = "hidden";
@@ -225,9 +225,8 @@ function getPostTimeTillNow(time){
         formattedTime = minutes + " min";
     } else {
         let hours = Math.floor(minutes / 60);
-        //let remainingMinutes = minutes % 60;
         if (hours < 24) {
-            formattedTime = hours + " h " /*+ remainingMinutes + " min"*/;
+            formattedTime = hours + " h ";
         } else {
             let days = Math.floor(hours / 24);
             if (days > 10) {
@@ -287,7 +286,7 @@ async function toggleLike(element, userId, postId)
         setNotLikedUI(element);
     }
     
-    return await fetch("Controller/Posts/LikePost.php?user=" + userId + "&post=" + postId)
+    return await fetch("posts/like/" + userId + "/" + postId)
         .then(response => response.json());
 }
 
