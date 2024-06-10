@@ -28,6 +28,8 @@ Route::get('nasa/getPicOfTheDay', 'App\Http\Controllers\NasaController@getPicOfT
 
 Route::get('posts/like', 'App\Http\Controller\ThreadController@likeThread');
 
+Route::get('posts/getByUserId', 'App\Http\Controller\ThreadController@getPostsByUserId');
+
 #endregion
 
 #region Post

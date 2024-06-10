@@ -6,8 +6,9 @@ use App\Extensions\AccountManager;
 use App\Extensions\ImageUploader;
 use App\Models\Post;
 use App\Models\Image;
-use App\Models\Like;
 use App\Models\User;
+use App\Models\UserData;
+use App\BusinessLogic\UserBL;
 use Request;
 
 class ThreadController extends Controller
@@ -62,5 +63,22 @@ class ThreadController extends Controller
 
         $user->likePost($post);
         return response()->json(['message' => 'OK', 'error' => 'Hai messo "mi piace" a questo post']);
+    }
+
+    public function getPostsByUserId()
+    {
+        $userId = Request::get('id');
+        if (!$userId){
+            response()->json(['message' => 'KO', 'error' => 'Parametri mancanti'], 400);
+        }
+
+        $user = User::find($userId);
+        if (!$user){
+            response()->json(['message' => 'KO', 'error' => 'Parametri errati'], 400);
+        }
+        
+        $posts = UserBL::getUserPostsArrayData($user);
+
+        return response()->json($posts, 200);
     }
 }
