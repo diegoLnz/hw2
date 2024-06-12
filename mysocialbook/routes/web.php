@@ -22,6 +22,7 @@ Route::middleware([CheckAuthenticated::class])->group(function() {
     Route::get('home', 'App\Http\Controllers\HomeController@home');
     Route::get('search', 'App\Http\Controllers\SearchController@search');
     Route::get('personal-info', 'App\Http\Controllers\PersonalInfoController@personalInfo');
+    Route::get('user/{username}', 'App\Http\Controllers\ExternalUsersController@user');
     #endregion
 
     #region Post

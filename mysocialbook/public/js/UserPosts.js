@@ -1,5 +1,5 @@
 //ToDo: Adapt code for mysocialbook database
-var baseUrl = "posts/getByUserId/";
+var baseUrl = window.location.href.includes('personal-info') ? "posts/getByUserId/" : "../posts/getByUserId/";
 var userId = document.getElementById("user-id").value;
 
 document.addEventListener("DOMContentLoaded", async function(){
@@ -285,8 +285,8 @@ async function toggleLike(element, userId, postId)
     else{
         setNotLikedUI(element);
     }
-    
-    return await fetch("posts/like/" + userId + "/" + postId)
+    var url = window.location.href.includes('personal-info') ? "posts/like/" + userId + "/" + postId : "../posts/like/" + userId + "/" + postId
+    return await fetch(url)
         .then(response => response.json());
 }
 

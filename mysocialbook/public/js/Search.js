@@ -31,7 +31,7 @@ function displayUsers(users)
         const userDiv = document.createElement("a");
         userDiv.classList.add("user-item");
 
-        userDiv.href = `users.php?user=${user.username}`;
+        userDiv.href = `user/${user.username}`;
         
         userInfo = document.createElement("div");
         userInfo.classList.add("user-item-info");

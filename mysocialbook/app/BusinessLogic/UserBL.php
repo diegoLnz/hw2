@@ -2,8 +2,10 @@
 
 namespace App\BusinessLogic;
 
+use App\Extensions\AccountManager;
 use App\Models\User;
 use Storage;
+use stdClass;
 
 class UserBL
 {
@@ -69,5 +71,26 @@ class UserBL
         }
 
         return $posts;
+    }
+
+    public static function getSearchedUserInfo(User $user)
+    {
+        $currentUser = AccountManager::currentUser();
+
+        if(!$user)
+            return null;
+
+        $userData = $user->userdata;
+        if(!$userData)
+            return null;
+
+        $userInfo = new stdClass();
+        $userInfo->id = $user->id;
+        $userInfo->username = $user->username;
+        $userInfo->name = $userData->name_surname;
+        $userInfo->followersNum = $user->followers()->count();
+        $userInfo->alreadyFollowed = $currentUser->isFollowing($user);
+
+        return $userInfo;
     }
 }

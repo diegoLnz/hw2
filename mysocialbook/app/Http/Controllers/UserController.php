@@ -55,8 +55,10 @@ class UserController extends Controller
         {
             $follower->unfollow($followedUser);
         }
+
+        $updatedFollowersNum = $followedUser->followers()->count();
         
-        $response = ApiExtensions::setResponse("OK", "", 200);
+        $response = ApiExtensions::setResponse($updatedFollowersNum, "", 200);
         return $response->toJson();
     }
 

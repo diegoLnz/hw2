@@ -25,7 +25,7 @@ function DisplayNasaPic(picData, container){
     const postHTML = document.createElement("div");
     postHTML.classList.add("single-post");
 
-    postHTML.appendChild(generateNasaPostHeaderHTML("NASA", picData.date));
+    postHTML.appendChild(generateNasaPostHeaderHTML("NASA - Pic of the day", picData.date));
     postHTML.appendChild(generateNasaPostContentHTML(picData.explanation, picData.url, picData.post_id));
     postHTML.appendChild(generateNasaPostFooterHTML());
 

@@ -28,7 +28,7 @@ function generatePostHTML(postData, container){
     let formattedTime = getPostTimeTillNow(postData.publish_date);
 
     postHTML.appendChild(generatePostHeaderHTML(postData.user.username, formattedTime));
-    postHTML.appendChild(generatePostContentHTML(postData.post_description, "hw1/" + postData.image.file_path, postData.post_id, postData.liked));
+    postHTML.appendChild(generatePostContentHTML(postData.post_description, postData.image.file_path, postData.post_id, postData.liked));
     postHTML.appendChild(generatePostFooterHTML());
 
     container.appendChild(postHTML);
@@ -49,7 +49,7 @@ function generatePostHeaderHTML(username, timeTillNow) {
     mainUsername.classList.add('main-username');
     const userLink = document.createElement('a');
     userLink.classList.add('userlink');
-    userLink.href = 'users.php?user=' + username;
+    userLink.href = 'user/' + username;
     userLink.textContent = username;
     mainUsername.appendChild(userLink);
     userInfo.appendChild(mainUsername);
@@ -93,7 +93,7 @@ function generatePostContentHTML(postBody, postImage, postId, isLiked) {
     postText.textContent = postBody;
     postContent.appendChild(postText);
 
-    if(postImage != "hw1/")
+    if(postImage != "")
     {
         const postImageContainer = document.createElement('div');
         postImageContainer.classList.add('post-image');

@@ -69,7 +69,7 @@ class User extends Model
 
     public function isFollowing(User $user)
     {
-        return $this->followings()->where('followed_id', $user->id)->exists();
+        return $this->followings()->where('followed_user_id', $user->id)->exists();
     }
 
     public function isFollowedBy(User $user)
