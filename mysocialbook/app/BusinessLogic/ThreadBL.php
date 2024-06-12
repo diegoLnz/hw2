@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\UserData;
 use App\BusinessLogic\UserBL;
+use App\Extensions\AccountManager;
 use Storage;
 
 class ThreadBL
@@ -16,12 +17,13 @@ class ThreadBL
         $userData = $user->userdata;
         $image = $post->image;
         $imageIsNull = $image == null;
+        $currentUser = AccountManager::currentUser();
 
         return [
             'post_id' => $post->id,
             'post_description' => $post->post_description,
             'publish_date' => $post->publish_date,
-            'liked' => $user->hasLikedPost($post),
+            'liked' => $currentUser->hasLikedPost($post),
             'image' => [
                 'file_name' => $imageIsNull ? "" : $image->file_name,
                 'file_extension' => $imageIsNull ? "" : $image->file_extension,

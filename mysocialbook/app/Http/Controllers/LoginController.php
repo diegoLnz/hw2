@@ -21,7 +21,7 @@ class LoginController extends Controller
         {
             Session::forget('user');
         }
-        
+
         return view('login');
     }
 

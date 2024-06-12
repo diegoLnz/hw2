@@ -6,6 +6,7 @@ use Storage;
 use App\Extensions\AccountManager;
 use App\Models\User;
 use Illuminate\Http\Request;
+use File;
 
 class ImageUploader {
     private $allowedExtensions = ['jpg', 'jpeg', 'png'];
@@ -40,14 +41,16 @@ class ImageUploader {
             return ['error' => 'Utente non autenticato'];
         }
 
+        $baseDirectory = 'storage/';
         $userDirectory = 'posts/' . $user->username;
-        $fileName = $this->getFileName($user, $userDirectory, $file);
+        $fileName = $this->getFileName($baseDirectory.$userDirectory, $file);
         return ['path' => $file->storeAs($userDirectory, $fileName, 'public'), 'error' => ""];
     }
 
-    private function getFileName(User $user, string $directory, $file)
+    private function getFileName(string $directory, $file)
     {
-        $fileCount = count(Storage::files($directory));
+        $files = File::allFiles($directory);
+        $fileCount = count($files);
         return 'post' . ($fileCount + 1) . '.' . $file->getClientOriginalExtension();
     }
 }

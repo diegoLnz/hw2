@@ -44,6 +44,7 @@ class UserBL
     {
         $userData = $user->userdata;
         $userPosts = $user->posts()->get();
+        $currentUser = AccountManager::currentUser();
         $posts = [];
 
         foreach ($userPosts as $userPost)
@@ -55,7 +56,7 @@ class UserBL
                 'post_id' => $userPost->id,
                 'post_description' => $userPost->post_description,
                 'publish_date' => $userPost->publish_date,
-                'liked' => $user->hasLikedPost($userPost),
+                'liked' => $currentUser->hasLikedPost($userPost),
                 'image' => [
                     'file_name' => $imageIsNull ? "" : $image->file_name,
                     'file_extension' => $imageIsNull ? "" : $image->file_extension,
