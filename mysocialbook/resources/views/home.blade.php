@@ -20,7 +20,7 @@
 
     </header>
 
-    <div class="content d-none" id="nasa-post-container">
+    <div class="nasa-content d-none" id="nasa-post-container">
 
     </div>
 

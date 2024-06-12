@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
-use Request;
+use Illuminate\Http\Request;
 
 
 class CommentController extends Controller
 {
-    public function uploadComment()
+    public function uploadComment(Request $request)
     {
-        $userId = Request::post('user');
-        $postId = Request::post('post');
-        $content = Request::post('comment_content');
+        $userId = $request->post('user');
+        $postId = $request->post('post');
+        $content = $request->post('comment_content');
 
         $comment = new Comment();
         $comment->user_id = $userId;

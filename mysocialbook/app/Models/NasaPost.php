@@ -10,8 +10,14 @@ class NasaPost extends Model
     protected $primaryKey = "id";
     public $timestamps = false;
 
+    protected $fillable = [
+        'post_description',
+        'publish_date',
+        'image_id'
+    ];
+
     public function nasaImage()
     {
-        $this->belongsTo("NasaImage", "image_id");
+        $this->belongsTo(NasaImage::class, "image_id");
     }
 }

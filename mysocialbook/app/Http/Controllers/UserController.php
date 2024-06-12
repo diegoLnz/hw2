@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Session, Request, App\Extensions\ApiExtensions, App\Models\User;
+use Session, App\Extensions\ApiExtensions, App\Models\User;
 use App\BusinessLogic\UserBL;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function checkExistingUser()
+    public function checkExistingUser($username)
     {
-        $username = Request::get('username');
         if (!$username)
         {
             $response = ApiExtensions::setResponse('KO', 'Username mancante', 400);
@@ -29,10 +29,9 @@ class UserController extends Controller
         return $response->toJson();
     }
 
-    public function followUser()
+    public function followUser($user, $follow)
     {
-        $userToFollow = Request::get('follow');
-        $user = Request::get('user');
+        $userToFollow = $follow;
 
         if(!$userToFollow || !$user || ($userToFollow == $user))
         {
@@ -61,11 +60,8 @@ class UserController extends Controller
         return $response->toJson();
     }
 
-    public function listForSearchForm()
+    public function listForSearchForm($search, $user)
     {
-        $search = strtolower(Request::get('search'));
-        $user = strtolower(Request::get('user'));
-
         if (!$search || !$user)
         {
             $response = ApiExtensions::setResponse("KO", "Parametri errati", 400);

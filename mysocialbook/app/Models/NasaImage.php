@@ -10,8 +10,12 @@ class NasaImage extends Model
     protected $primaryKey = "id";
     public $timestamps = false;
 
+    protected $fillable = [
+        'network_path'
+    ];
+
     public function nasaPost()
     {
-        return $this->hasOne("NasaPost", "image_id");
+        return $this->hasOne(NasaPost::class, "image_id");
     }
 }

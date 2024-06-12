@@ -10,13 +10,19 @@ class Image extends Model
     protected $primaryKey = "id";
     public $timestamps = false;
 
+    protected $fillable = [
+        'file_name',
+        'file_extension',
+        'file_path'
+    ];
+
     public function user()
     {
-        return $this->hasOne("User", "profile_pic_id");
+        return $this->hasOne(User::class, "profile_pic_id");
     }
 
     public function post()
     {
-        return $this->hasOne("Post", "image_id");
+        return $this->hasOne(Post::class, "image_id");
     }
 }

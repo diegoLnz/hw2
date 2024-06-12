@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Session, Request, App\BusinessLogic\UserBL;
+use Session, App\BusinessLogic\UserBL;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -13,15 +14,16 @@ class LoginController extends Controller
             : view('login');
     }
 
-    public function logUser()
+    public function logUser(Request $request)
     {
-        $username = Request::post('username');
-        $password = Request::post('password');
+        $username = $request->post('username');
+        $password = $request->post('password');
 
         if (!UserBL::validateUserCredentials($username, $password))
             return redirect('login')->withErrors(['invalid_credentials' => 'Username o password errati']);
 
         Session::put('user', $username);
+        return redirect('home');
     }
 
     public function logout()

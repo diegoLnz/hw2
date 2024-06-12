@@ -2,9 +2,10 @@
 
 namespace App\Extensions;
 
-use Request,Storage;
+use Storage;
 use App\Extensions\AccountManager;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class ImageUploader {
     private $allowedExtensions = ['jpg', 'jpeg', 'png'];

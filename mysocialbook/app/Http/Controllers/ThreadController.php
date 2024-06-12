@@ -10,7 +10,7 @@ use App\Models\User;
 use App\Models\UserData;
 use App\BusinessLogic\UserBL;
 use App\BusinessLogic\ThreadBL;
-use Request;
+use Illuminate\Http\Request;
 
 class ThreadController extends Controller
 {
@@ -43,10 +43,8 @@ class ThreadController extends Controller
         return redirect()->back()->with('success', 'Post creato con successo');
     }
 
-    public function likeThread()
+    public function likeThread($userId, $postId)
     {
-        $userId = Request::input('user');
-        $postId = Request::input('post');
         if (!$userId || !$postId)
             return response()->json(['message' => 'KO', 'error' => 'Parametri mancanti'], 400);
 
@@ -66,9 +64,9 @@ class ThreadController extends Controller
         return response()->json(['message' => 'OK', 'error' => 'Hai messo "mi piace" a questo post']);
     }
 
-    public function getPostsByUserId()
+    public function getPostsByUserId($id)
     {
-        $userId = Request::get('id');
+        $userId = $id;
         if (!$userId){
             response()->json(['message' => 'KO', 'error' => 'Parametri mancanti'], 400);
         }
@@ -83,9 +81,9 @@ class ThreadController extends Controller
         return response()->json($posts, 200);
     }
 
-    public function getFollowedUsersPosts()
+    public function getFollowedUsersPosts($id)
     {
-        $userId = Request::get('id');
+        $userId = $id;
         if (!$userId){
             response()->json(['message' => 'KO', 'error' => 'Parametri mancanti'], 400);
         }

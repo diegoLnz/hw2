@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Session, Request, Exception;
+use Session, Exception;
+use Illuminate\Http\Request;
 use App\BusinessLogic\RegisterBL, App\Models\User, App\Models\UserData;
 
 class RegisterController extends Controller

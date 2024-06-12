@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     else
     {
         nasaPostContainer.classList.add('d-block');
+        nasaPostContainer.classList.remove('d-none');
         DisplayNasaPic(picData, nasaPostContainer);
     }
 
@@ -16,7 +17,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
 async function getNasaAPOD()
 {
-    return await fetch("nasa/GetPicOfTheDay")
+    return await fetch("nasa/getPicOfTheDay")
         .then(response => response.json());
 }
 
@@ -39,14 +40,14 @@ function generateNasaPostHeaderHTML(username, time) {
     userInfo.classList.add('user-info');
 
     const userImage = document.createElement('div');
-    userImage.classList.add('user-image');
+    userImage.classList.add('nasa-user-image');
     userInfo.appendChild(userImage);
 
     const mainUsername = document.createElement('div');
     mainUsername.classList.add('main-username');
     const userLink = document.createElement('a');
     userLink.classList.add('userlink');
-    userLink.href = '#';
+    userLink.href = 'https://www.nasa.gov';
     userLink.textContent = username;
     mainUsername.appendChild(userLink);
     userInfo.appendChild(mainUsername);
@@ -114,10 +115,6 @@ function generateNasaPostFooterHTML() {
 
     usersFooterImages.appendChild(userFooterImage);
     postFooter.appendChild(usersFooterImages);
-
-    const separator = document.createElement('div');
-    separator.textContent = ' · ';
-    postFooter.appendChild(separator);
 
     return postFooter;
 }

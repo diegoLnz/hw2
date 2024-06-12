@@ -10,41 +10,48 @@ class User extends Model
     protected $primaryKey = "id";
     public $timestamps = false;
 
+    protected $fillable = [
+        'username',
+        'password',
+        'userdata_id',
+        'profile_pic_id'
+    ];
+
     public function userdata()
     {
-        return $this->belongsTo("UserData", "userdata_id");
+        return $this->belongsTo(UserData::class, "userdata_id");
     }
 
     public function image()
     {
-        return $this->belongsTo("Image", "profile_pic_id");
+        return $this->belongsTo(Image::class, "profile_pic_id");
     }
 
     public function posts()
     {
-        return $this->hasMany("Post", "user_id");
+        return $this->hasMany(Post::class, "user_id");
     }
 
     public function comments()
     {
-        return $this->hasMany("Comment", "user_id");
+        return $this->hasMany(Comment::class, "user_id");
     }
 
     public function likedPosts()
     {
-        return $this->belongsToMany("Post", "likes", "user_id", "post_id")
+        return $this->belongsToMany(Post::class, "likes", "user_id", "post_id")
                     ->withTimestamps();
     }
 
     public function followers()
     {
-        return $this->belongsToMany("User", "follows", "followed_user_id", "follower_id")
+        return $this->belongsToMany(User::class, "follows", "followed_user_id", "follower_id")
                     ->withTimestamps();
     }
 
     public function followings()
     {
-        return $this->belongsToMany("User", "follows", "follower_id", "followed_user_id")
+        return $this->belongsToMany(User::class, "follows", "follower_id", "followed_user_id")
                     ->withTimestamps();
     }
 

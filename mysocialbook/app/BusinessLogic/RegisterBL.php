@@ -2,7 +2,7 @@
 
 namespace App\BusinessLogic;
 
-use Request, App\Models\User, App\Models\UserData;
+use Illuminate\Http\Request, App\Models\User, App\Models\UserData;
 
 class RegisterBL
 {
@@ -24,7 +24,7 @@ class RegisterBL
     
         $validEmail = filter_var($email, FILTER_VALIDATE_EMAIL);
 
-        $user = User::where('LOWER(username) = ?', [strtolower($username)])->first();
+        $user = User::whereRaw('LOWER(username) = ?', [strtolower($username)])->first();
 
         return !$atLeastOneFieldEmpty 
         && $confirmPass 

@@ -10,8 +10,13 @@ class UserData extends Model
     protected $primaryKey = "id";
     public $timestamps = false;
 
+    protected $fillable = [
+        'name_surname',
+        'email'
+    ];
+
     public function user()
     {
-        return $this->hasOne("User", "userdata_id");
+        return $this->hasOne(User::class, "userdata_id");
     }
 }
