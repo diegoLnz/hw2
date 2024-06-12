@@ -47,6 +47,10 @@
 
                     </div>
 
+                    @error('error')
+                        <p class='error-message'>{{ $message }}</p>
+                    @enderror 
+
                     <div class="register-submit-box">
                         <input type="submit" class="register-submit-btn" value="Iscriviti">
                     </div>

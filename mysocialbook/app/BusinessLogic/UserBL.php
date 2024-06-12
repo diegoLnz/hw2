@@ -3,6 +3,7 @@
 namespace App\BusinessLogic;
 
 use App\Models\User;
+use Storage;
 
 class UserBL
 {
@@ -29,11 +30,11 @@ class UserBL
     public static function getProfilePicArrayData(User $user)
     {
         $image = $user->image;
-
+        $imageIsNull = $image == null;
         return [
-            'file_name' => $image->file_name,
-            'file_extension' => $image->file_extension,
-            'file_path' => $image->file_path
+            'file_name' => $imageIsNull ? "" : $image->file_name,
+            'file_extension' => $imageIsNull ? "" : $image->file_extension,
+            'file_path' => $imageIsNull ? "" : Storage::url($image->file_path)
         ];
     }
 
@@ -45,7 +46,8 @@ class UserBL
 
         foreach ($userPosts as $userPost)
         {
-            $image = $userPost->image();
+            $image = $userPost->image()->first();
+            $imageIsNull = $image == null;
 
             $posts[] = [
                 'post_id' => $userPost->id,
@@ -53,9 +55,9 @@ class UserBL
                 'publish_date' => $userPost->publish_date,
                 'liked' => $user->hasLikedPost($userPost),
                 'image' => [
-                    'file_name' => $image->file_name,
-                    'file_extension' => $image->file_extension,
-                    'file_path' => $image->file_path
+                    'file_name' => $imageIsNull ? "" : $image->file_name,
+                    'file_extension' => $imageIsNull ? "" : $image->file_extension,
+                    'file_path' => $imageIsNull ? "" : Storage::url($image->file_path)
                 ],
                 'user' => [
                     'username' => $user->username,

@@ -32,6 +32,12 @@ class RegisterBL
         && !$user;
     }
 
+    public static function checkExistingEmail(string $email): bool
+    {
+        $users = UserData::whereRaw('LOWER(email) = ?', [strtolower($email)])->get();
+        return $users->count() == 0;
+    }
+
     public static function saveUserData(Request $request): int
     {
         $userData = [

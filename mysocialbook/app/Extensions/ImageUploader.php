@@ -40,9 +40,9 @@ class ImageUploader {
             return ['error' => 'Utente non autenticato'];
         }
 
-        $userDirectory = 'posts/' . $user->id;
+        $userDirectory = 'posts/' . $user->username;
         $fileName = $this->getFileName($user, $userDirectory, $file);
-        return ['path' => $file->storeAs($userDirectory, $fileName, 'public')];
+        return ['path' => $file->storeAs($userDirectory, $fileName, 'public'), 'error' => ""];
     }
 
     private function getFileName(User $user, string $directory, $file)

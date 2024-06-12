@@ -21,6 +21,14 @@
                     <input type="submit" class="login-submit-btn" value="Accedi">
                 </div>
 
+                @error('username')
+                <p class='login-error'>{{ $message }}</p>
+                @enderror
+
+                @error('password')
+                <p class='login-error'>{{ $message }}</p>
+                @enderror
+
                 @error('invalid_credentials')
                 <p class='login-error'>Username o password errati!</p>
                 @enderror    

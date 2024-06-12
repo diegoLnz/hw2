@@ -29,7 +29,7 @@ function generatePostHTML(postData, container){
     let formattedTime = getPostTimeTillNow(postData.publish_date);
 
     postHTML.appendChild(generatePostHeaderHTML(postData.user.username, formattedTime));
-    postHTML.appendChild(generatePostContentHTML(postData.post_description, "hw1/" + postData.image.file_path, postData.post_id, postData.liked));
+    postHTML.appendChild(generatePostContentHTML(postData.post_description, postData.image.file_path, postData.post_id, postData.liked));
     postHTML.appendChild(generatePostFooterHTML());
 
     container.appendChild(postHTML);
@@ -94,7 +94,7 @@ function generatePostContentHTML(postBody, postImage, postId, isLiked) {
     postText.textContent = postBody;
     postContent.appendChild(postText);
 
-    if(postImage != "hw1/")
+    if(postImage != "")
     {
         const postImageContainer = document.createElement('div');
         postImageContainer.classList.add('post-image');

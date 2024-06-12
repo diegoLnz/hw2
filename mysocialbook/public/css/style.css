@@ -565,6 +565,12 @@ button.disabled {
     background-color: #585858;
 }
 
+p.error-message{
+    font-size: small;
+    text-align: center;
+    color: crimson;
+}
+
 /*MEDIA QUERIES*/
 @media screen and (max-width: 730px) {
 

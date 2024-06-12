@@ -24,6 +24,12 @@ class RegisterController extends Controller
                 throw new Exception("Dati non validi");
             }
 
+            $emailValid = RegisterBL::checkExistingEmail($request->post('email'));
+            if(!$emailValid)
+            {
+                throw new Exception('Email già esistente');
+            }
+
             $userDataId = RegisterBL::saveUserData($request);
 
             if (!RegisterBL::saveUser($request, $userDataId))
@@ -37,7 +43,7 @@ class RegisterController extends Controller
         } 
         catch (Exception $e)
         {
-            return redirect('register?message='.$e->getMessage());
+            return redirect('register')->withErrors(['error' => $e->getMessage()]);
         }
     }
 }

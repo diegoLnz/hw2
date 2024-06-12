@@ -74,7 +74,7 @@ class UserController extends Controller
 
         foreach ($users as $singleUser)
         {
-            $users[] = [
+            $usersInfo[] = [
                 'username' => $singleUser->username,
                 'name_surname' => $singleUser->name_surname
             ];

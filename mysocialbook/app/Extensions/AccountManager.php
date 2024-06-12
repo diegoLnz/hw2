@@ -13,7 +13,7 @@ class AccountManager
         if (!$username)
             return null;
 
-        $user = User::whereRaw('LOWER(username) = ?', [strtolower($username)]);
+        $user = User::whereRaw('LOWER(username) = ?', [strtolower($username)])->first();
         return $user;
     }
 }
