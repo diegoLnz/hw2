@@ -73,3 +73,9 @@ input:focus {
     object-fit: cover;
     border-radius: 50%;
 }
+
+@media screen and (max-width: 730px) {
+    .user-item {
+        width: 60vw;
+    }
+}

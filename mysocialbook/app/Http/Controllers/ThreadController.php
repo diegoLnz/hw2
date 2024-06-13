@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\UserData;
 use App\BusinessLogic\UserBL;
 use App\BusinessLogic\ThreadBL;
+use App\BusinessLogic\PersonalInfoBL;
 use Illuminate\Http\Request;
 
 class ThreadController extends Controller
@@ -104,5 +105,23 @@ class ThreadController extends Controller
         }
 
         return response()->json($posts, 200);
+    }
+
+    public function getLikedPosts()
+    {
+        $user = AccountManager::currentUser();
+        if (!$user){
+            response()->json(['message' => 'KO', 'error' => 'Non sei loggato'], 400);
+        }
+
+        $posts = UserBL::getUserLikedPostsArrayData($user);
+
+        return response()->json($posts, 200);
+    }
+
+    public function likedPosts()
+    {
+        $userInfo = PersonalInfoBL::getSessionUserInfo();
+        return view('likedPosts')->with('userInfo', $userInfo);
     }
 }

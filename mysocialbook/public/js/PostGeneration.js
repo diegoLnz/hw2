@@ -29,7 +29,7 @@ function generatePostHTML(postData, container){
 
     postHTML.appendChild(generatePostHeaderHTML(postData.user.username, formattedTime));
     postHTML.appendChild(generatePostContentHTML(postData.post_description, postData.image.file_path, postData.post_id, postData.liked));
-    postHTML.appendChild(generatePostFooterHTML());
+    postHTML.appendChild(generatePostFooterHTML(postData.post_id));
 
     container.appendChild(postHTML);
 }
@@ -187,7 +187,7 @@ function generatePostContentHTML(postBody, postImage, postId, isLiked) {
     return postContent;
 }
 
-function generatePostFooterHTML() {
+function generatePostFooterHTML(postId) {
     const postFooter = document.createElement('div');
     postFooter.classList.add('post-footer', 'pointed');
 
@@ -199,16 +199,8 @@ function generatePostFooterHTML() {
     usersFooterImages.appendChild(userFooterImage);
     postFooter.appendChild(usersFooterImages);
 
-    const repliesNumber = document.createElement('div');
-    repliesNumber.classList.add('replies-number');
-    repliesNumber.textContent = 'N Risposte';
-    postFooter.appendChild(repliesNumber);
-
-    const separator = document.createElement('div');
-    separator.textContent = ' · ';
-    postFooter.appendChild(separator);
-
-    const viewActivitiesLink = document.createElement('div');
+    const viewActivitiesLink = document.createElement('a');
+    viewActivitiesLink.href = "http://127.0.0.1:8000/post/" + postId;
     viewActivitiesLink.classList.add('view-activities-action', 'hover-underlined');
     viewActivitiesLink.textContent = 'Visualizza attività';
     postFooter.appendChild(viewActivitiesLink);

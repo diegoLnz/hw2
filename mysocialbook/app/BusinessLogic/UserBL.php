@@ -64,9 +64,44 @@ class UserBL
                 ],
                 'user' => [
                     'username' => $user->username,
-                    'name_surname' => $user->name_surname,
+                    'name_surname' => $userData->name_surname,
                     'email' => $userData->email,
                     'profile_pic' => self::getProfilePicArrayData($user)
+                ]
+            ];
+        }
+
+        return $posts;
+    }
+
+    public static function getUserLikedPostsArrayData(User $user)
+    {
+        $userPosts = $user->likedPosts()->get();
+        $currentUser = AccountManager::currentUser();
+        $posts = [];
+
+        foreach ($userPosts as $userPost)
+        {
+            $image = $userPost->image()->first();
+            $imageIsNull = $image == null;
+            $ownerUser = $userPost->user;
+            $ownerUserData = $ownerUser->userdata;
+
+            $posts[] = [
+                'post_id' => $userPost->id,
+                'post_description' => $userPost->post_description,
+                'publish_date' => $userPost->publish_date,
+                'liked' => $currentUser->hasLikedPost($userPost),
+                'image' => [
+                    'file_name' => $imageIsNull ? "" : $image->file_name,
+                    'file_extension' => $imageIsNull ? "" : $image->file_extension,
+                    'file_path' => $imageIsNull ? "" : Storage::url($image->file_path)
+                ],
+                'user' => [
+                    'username' => $ownerUser->username,
+                    'name_surname' => $ownerUserData->name_surname,
+                    'email' => $ownerUserData->email,
+                    'profile_pic' => self::getProfilePicArrayData($ownerUser)
                 ]
             ];
         }

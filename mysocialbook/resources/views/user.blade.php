@@ -35,6 +35,7 @@
         <div id="user-info">
             <div id="user-desc">
                 <input id="user-id" type="hidden" value="{{ $userInfo->id }}">
+                <input id="current-user-id" type="hidden" value="{{ $currentUser->id }}">
                 <span id="username">
                     {{ $userInfo->name }}
                 </span>

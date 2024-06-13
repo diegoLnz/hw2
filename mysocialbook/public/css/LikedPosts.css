@@ -1,0 +1,19 @@
+.threads-list-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+#threads-label {
+    font-weight: bold;
+    color: var(--custom-white);
+    font-size: x-large;
+    margin: 20px 0px;
+}
+
+#post-container {
+    border-top: 1px solid var(--custom-white);
+    margin-bottom: var(--nav-height);
+    padding-top: 20px;
+}

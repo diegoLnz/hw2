@@ -1,24 +1,19 @@
-var baseUrl = window.location.href.includes('personal-info') ? "posts/getByUserId/" : "../posts/getByUserId/";
-var userId = document.getElementById("user-id").value;
-var currentUserId = window.location.href.includes('personal-info') ? userId : document.getElementById("current-user-id").value;
+const baseUrl = "../posts/get-detail/";
+const postId = document.getElementById("hidden-post-id").value;
+var currentUserId = document.getElementById("current-user-id").value;
 
 document.addEventListener("DOMContentLoaded", async function(){
     const postContainer = document.getElementById('post-container');
 
-    const instaPosts = await getPosts(userId);
-    const postsList = instaPosts;
+    const postDetail = await getPostDetail(postId);
 
-    postsList.sort((post1, post2) => new Date(post2.publish_date) - new Date(post1.publish_date));
-
-    postsList.forEach(post => {
-        generatePostHTML(post, postContainer);
-    });
+    generatePostHTML(postDetail, postContainer);
 
     setCommentSection();
 });
 
-async function getPosts(userId){
-    return await fetch(`${baseUrl}${userId}`)
+async function getPostDetail(postId){
+    return await fetch(`${baseUrl}${postId}`)
       .then(response => response.json());
 }
 
@@ -30,7 +25,7 @@ function generatePostHTML(postData, container){
 
     postHTML.appendChild(generatePostHeaderHTML(postData.user.username, formattedTime));
     postHTML.appendChild(generatePostContentHTML(postData.post_description, postData.image.file_path, postData.post_id, postData.liked));
-    postHTML.appendChild(generatePostFooterHTML(postData.post_id));
+    postHTML.appendChild(generatePostFooterHTML());
 
     container.appendChild(postHTML);
 }
@@ -136,7 +131,7 @@ function generatePostContentHTML(postBody, postImage, postId, isLiked) {
 
     const commentForm = document.createElement('form');
     commentForm.method = "POST";
-    commentForm.action = "comments/upload";
+    commentForm.action = "http://127.0.0.1:8000/comments/upload";
 
     const userIdInput = document.createElement('input');
     userIdInput.type = "hidden";
@@ -187,7 +182,7 @@ function generatePostContentHTML(postBody, postImage, postId, isLiked) {
     return postContent;
 }
 
-function generatePostFooterHTML(postId) {
+function generatePostFooterHTML() {
     const postFooter = document.createElement('div');
     postFooter.classList.add('post-footer', 'pointed');
 
@@ -198,12 +193,6 @@ function generatePostFooterHTML(postId) {
 
     usersFooterImages.appendChild(userFooterImage);
     postFooter.appendChild(usersFooterImages);
-
-    const viewActivitiesLink = document.createElement('a');
-    viewActivitiesLink.href = "http://127.0.0.1:8000/post/" + postId;
-    viewActivitiesLink.classList.add('view-activities-action', 'hover-underlined');
-    viewActivitiesLink.textContent = 'Visualizza attività';
-    postFooter.appendChild(viewActivitiesLink);
 
     return postFooter;
 }

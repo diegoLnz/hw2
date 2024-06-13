@@ -1,11 +1,9 @@
-var baseUrl = window.location.href.includes('personal-info') ? "posts/getByUserId/" : "../posts/getByUserId/";
-var userId = document.getElementById("user-id").value;
-var currentUserId = window.location.href.includes('personal-info') ? userId : document.getElementById("current-user-id").value;
+var baseUrl = window.location.href.includes('personal-info') ? "posts/getLiked" : "../posts/getLiked";
 
 document.addEventListener("DOMContentLoaded", async function(){
     const postContainer = document.getElementById('post-container');
 
-    const instaPosts = await getPosts(userId);
+    const instaPosts = await getPosts();
     const postsList = instaPosts;
 
     postsList.sort((post1, post2) => new Date(post2.publish_date) - new Date(post1.publish_date));
@@ -17,8 +15,8 @@ document.addEventListener("DOMContentLoaded", async function(){
     setCommentSection();
 });
 
-async function getPosts(userId){
-    return await fetch(`${baseUrl}${userId}`)
+async function getPosts(){
+    return await fetch(`${baseUrl}`)
       .then(response => response.json());
 }
 
@@ -30,7 +28,7 @@ function generatePostHTML(postData, container){
 
     postHTML.appendChild(generatePostHeaderHTML(postData.user.username, formattedTime));
     postHTML.appendChild(generatePostContentHTML(postData.post_description, postData.image.file_path, postData.post_id, postData.liked));
-    postHTML.appendChild(generatePostFooterHTML(postData.post_id));
+    postHTML.appendChild(generatePostFooterHTML());
 
     container.appendChild(postHTML);
 }
@@ -50,7 +48,7 @@ function generatePostHeaderHTML(username, timeTillNow) {
     mainUsername.classList.add('main-username');
     const userLink = document.createElement('a');
     userLink.classList.add('userlink');
-    userLink.href = '#';
+    userLink.href = 'user/' + username;
     userLink.textContent = username;
     mainUsername.appendChild(userLink);
     userInfo.appendChild(mainUsername);
@@ -117,7 +115,7 @@ function generatePostContentHTML(postBody, postImage, postId, isLiked) {
     }
 
     likeIcon.addEventListener("click", () => {
-        toggleLike(likeIcon, currentUserId, postId);
+        toggleLike(likeIcon, userId, postId);
     });
     
     actionsMenu.appendChild(likeIcon);
@@ -187,7 +185,7 @@ function generatePostContentHTML(postBody, postImage, postId, isLiked) {
     return postContent;
 }
 
-function generatePostFooterHTML(postId) {
+function generatePostFooterHTML() {
     const postFooter = document.createElement('div');
     postFooter.classList.add('post-footer', 'pointed');
 
@@ -199,8 +197,16 @@ function generatePostFooterHTML(postId) {
     usersFooterImages.appendChild(userFooterImage);
     postFooter.appendChild(usersFooterImages);
 
-    const viewActivitiesLink = document.createElement('a');
-    viewActivitiesLink.href = "http://127.0.0.1:8000/post/" + postId;
+    const repliesNumber = document.createElement('div');
+    repliesNumber.classList.add('replies-number');
+    repliesNumber.textContent = 'N Risposte';
+    postFooter.appendChild(repliesNumber);
+
+    const separator = document.createElement('div');
+    separator.textContent = ' · ';
+    postFooter.appendChild(separator);
+
+    const viewActivitiesLink = document.createElement('div');
     viewActivitiesLink.classList.add('view-activities-action', 'hover-underlined');
     viewActivitiesLink.textContent = 'Visualizza attività';
     postFooter.appendChild(viewActivitiesLink);

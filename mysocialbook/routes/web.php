@@ -12,6 +12,8 @@ Route::get('users/listforsearch/{search}/{user}', 'App\Http\Controllers\UserCont
 Route::get('posts/like/{user}/{post}', 'App\Http\Controllers\ThreadController@likeThread');
 Route::get('posts/getByUserId/{id}', 'App\Http\Controllers\ThreadController@getPostsByUserId');
 Route::get('posts/getFollowedUsersPosts/{id}', 'App\Http\Controllers\ThreadController@getFollowedUsersPosts');
+Route::get('posts/getLiked', 'App\Http\Controllers\ThreadController@getLikedPosts');
+Route::get('posts/get-detail/{id}', 'App\Http\Controllers\PostDetailController@getDetail');
 Route::get('users/follow/{user}/{follow}', 'App\Http\Controllers\UserController@followUser');
 Route::post('login', 'App\Http\Controllers\LoginController@logUser');
 Route::post('register', 'App\Http\Controllers\RegisterController@registerUser');
@@ -23,6 +25,8 @@ Route::middleware([CheckAuthenticated::class])->group(function() {
     Route::get('search', 'App\Http\Controllers\SearchController@search');
     Route::get('personal-info', 'App\Http\Controllers\PersonalInfoController@personalInfo');
     Route::get('user/{username}', 'App\Http\Controllers\ExternalUsersController@user');
+    Route::get('liked-posts', 'App\Http\Controllers\ThreadController@likedPosts');
+    Route::get('post/{id}', 'App\Http\Controllers\PostDetailController@postDetail');
     #endregion
 
     #region Post
