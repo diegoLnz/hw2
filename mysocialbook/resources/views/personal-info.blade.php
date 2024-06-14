@@ -37,7 +37,7 @@
                 <span id="user-name">
                     {{ $userInfo->username }}
                 </span>
-                <a href="#" id="num-followers">
+                <a href="followers" id="num-followers">
                     Followers: {{ $userInfo->followersNum }}
                 </a>
             </div>

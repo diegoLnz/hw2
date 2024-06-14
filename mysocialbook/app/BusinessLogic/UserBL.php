@@ -76,7 +76,10 @@ class UserBL
 
     public static function getUserLikedPostsArrayData(User $user)
     {
-        $userPosts = $user->likedPosts()->get();
+        $userPosts = $user->likedPosts()
+        ->orderBy('created_at', 'desc')
+        ->get();
+        
         $currentUser = AccountManager::currentUser();
         $posts = [];
 

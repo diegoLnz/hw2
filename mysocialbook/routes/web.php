@@ -27,6 +27,8 @@ Route::middleware([CheckAuthenticated::class])->group(function() {
     Route::get('user/{username}', 'App\Http\Controllers\ExternalUsersController@user');
     Route::get('liked-posts', 'App\Http\Controllers\ThreadController@likedPosts');
     Route::get('post/{id}', 'App\Http\Controllers\PostDetailController@postDetail');
+    Route::get('followers', 'App\Http\Controllers\FollowersController@followersList');
+    Route::get('followers/get', 'App\Http\Controllers\FollowersController@getFollowersList');
     #endregion
 
     #region Post
