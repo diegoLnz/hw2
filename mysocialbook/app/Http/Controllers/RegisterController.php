@@ -30,9 +30,18 @@ class RegisterController extends Controller
                 throw new Exception('Email già esistente');
             }
 
+            $imageId = null;
+            if ($request->hasFile('file'))
+            {
+                $imageRes = RegisterBL::saveProfilePicture($request);
+                if ($imageRes['error'] != "")
+                    throw new Exception('Errore durante il salvataggio della foto profilo');
+                $imageId = $imageRes['image_id'];
+            }
+            
             $userDataId = RegisterBL::saveUserData($request);
 
-            if (!RegisterBL::saveUser($request, $userDataId))
+            if (!RegisterBL::saveUser($request, $userDataId, $imageId))
             {
                 throw new Exception("Errore durante il salvataggio dell' utente");
             }

@@ -8,7 +8,6 @@
     border: 1px solid var(--separer-border-color);
     min-height: 600px;
     min-width: 500px;
-    max-height: 600px;
     max-width: 500px;
 }
 
@@ -157,6 +156,15 @@
 .input-feedback.ko{
     display: block;
     color: crimson;
+}
+
+#label-for-profile {
+    color: var(--custom-white);
+}
+
+#image-preview {
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
 }
 
 @media (max-width: 550px) {

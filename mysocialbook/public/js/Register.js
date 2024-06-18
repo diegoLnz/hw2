@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
+    SetUploadScript();
+
     //Toggle Password listeners
     AddPwdOnClickListener('pwd-div', 'password');
     AddPwdOnClickListener('pwd-confirm-div', 'password-confirm');
@@ -187,4 +189,60 @@ function togglePassword(caller, targetId)
     var target = document.getElementById(targetId);
     target.type = target.type == 'password' ? 'text' : 'password';
     caller.textContent = target.type == 'password' ? 'Mostra' : 'Nascondi';
+}
+
+function SetUploadScript()
+{
+    const uploadButton = document.getElementById('upload-button');
+    const fileInput = document.getElementById('file-input');
+    const imagePreview = document.getElementById('image-preview');
+    const removeImageButton = document.getElementById('remove-image-button');
+
+    uploadButton.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', () => {
+        const file = fileInput.files[0];
+
+        if (file && (file.type === 'image/jpeg' || file.type === 'image/png'))
+        {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imagePreview.src = e.target.result;
+                SetDisplayBlock(imagePreview);
+                SetDisplayNone(uploadButton);
+                SetDisplayBlock(removeImageButton);
+            };
+            reader.readAsDataURL(file);
+        } 
+        else 
+        {
+            alert('Per favore carica un file JPG o PNG.');
+            fileInput.value = "";
+            SetDisplayNone(imagePreview);
+        }
+    });
+
+    removeImageButton.addEventListener('click', () => {
+        fileInput.value = "";
+        imagePreview.src = "";
+        SetDisplayBlock(uploadButton);
+        SetDisplayNone(imagePreview);
+        SetDisplayNone(removeImageButton);
+    });
+}
+
+function SetDisplayBlock(element)
+{
+    element.classList.remove('d-none');
+    element.classList.remove('d-flex');
+    element.classList.add('d-block');
+}
+
+function SetDisplayNone(element)
+{
+    element.classList.remove('d-block');
+    element.classList.remove('d-flex');
+    element.classList.add('d-none');
 }

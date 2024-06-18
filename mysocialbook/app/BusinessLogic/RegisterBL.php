@@ -3,6 +3,8 @@
 namespace App\BusinessLogic;
 
 use Illuminate\Http\Request, App\Models\User, App\Models\UserData;
+use App\Extensions\ImageUploader;
+use App\Models\Image;
 
 class RegisterBL
 {
@@ -49,13 +51,36 @@ class RegisterBL
         return $savedUserData->id;
     }
 
-    public static function saveUser(Request $request, $userDataId): bool
+    public static function saveUser(Request $request, $userDataId, $profilePicId): bool
     {
         $user = new User();
-        $user->username = $request->post('username');
+        $user->username = trim($request->post('username'));
         $user->password = password_hash($request->post('password'), PASSWORD_DEFAULT);
         $user->userdata_id = $userDataId;
 
+        if ($profilePicId != null)
+            $user->profile_pic_id = $profilePicId;
+
         return $user->save();
+    }
+
+    public static function saveProfilePicture(Request $request)
+    {
+        $uploader = new ImageUploader();
+
+        $result = $uploader->upload($request, 'file', $request->post('username'), 'profilePictures');
+
+        if ($result['error'] !== "") 
+            return ['error' => $result['error']];
+
+        $filename = basename($result['path']);
+        
+        $image = new Image();
+        $image->file_name = $filename;
+        $image->file_extension = $request->file('file')->getClientOriginalExtension();
+        $image->file_path = $result['path'];
+        $image->save();
+
+        return ['image_id' => $image->id, 'error' => ""];
     }
 }
