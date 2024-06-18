@@ -627,6 +627,10 @@ p.error-message{
 
 }
 
+img {
+    object-fit: fill !important;
+}
+
 @media (min-width: 730px){
 
     .single-post, .start-thread{

@@ -46,7 +46,7 @@
                     Followers: {{ $userInfo->followersNum }}
                 </a>
             </div>
-            <img id="profile-image" src="../images/generic_user.png" alt="Immagine profilo">
+            <img id="profile-image" src="{{ asset('storage/'.$userExt->image->file_path) }}" alt="Immagine profilo">
         </div>
 
         <div class="follow-div">

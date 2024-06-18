@@ -8,7 +8,8 @@ class FollowersController extends Controller
 {
     public function followersList()
     {
-        return view('followers-list');
+        return view('followers-list')
+        ->with('user', AccountManager::currentUser());
     }
 
     public function getFollowersList()

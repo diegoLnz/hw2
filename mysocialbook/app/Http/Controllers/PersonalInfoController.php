@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Session;
 use App\BusinessLogic\PersonalInfoBL;
+use App\Extensions\AccountManager;
 
 class PersonalInfoController extends Controller
 {
@@ -13,6 +14,8 @@ class PersonalInfoController extends Controller
             return redirect('login');
 
         $userInfo = PersonalInfoBL::getSessionUserInfo();
-        return view('personal-info')->with('userInfo', $userInfo);
+        return view('personal-info')
+        ->with('userInfo', $userInfo)
+        ->with('user', AccountManager::currentUser());
     }
 }

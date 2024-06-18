@@ -14,7 +14,8 @@ class PostDetailController extends Controller
         $currentUser = AccountManager::currentUser();
         return view('post-detail')
         ->with('postInfo', $post)
-        ->with('currentUser', $currentUser);
+        ->with('currentUser', $currentUser)
+        ->with('user', AccountManager::currentUser());
     }
 
     public function getDetail($id)

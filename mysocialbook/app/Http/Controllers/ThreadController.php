@@ -46,7 +46,9 @@ class ThreadController extends Controller
         $post->user_id = $user->id;
         $post->save();
 
-        return redirect()->back()->with('success', 'Post creato con successo');
+        return redirect()->back()
+        ->with('success', 'Post creato con successo')
+        ->with('user', AccountManager::currentUser());
     }
 
     public function likeThread($userId, $postId)
@@ -127,6 +129,8 @@ class ThreadController extends Controller
     public function likedPosts()
     {
         $userInfo = PersonalInfoBL::getSessionUserInfo();
-        return view('likedPosts')->with('userInfo', $userInfo);
+        return view('likedPosts')
+        ->with('userInfo', $userInfo)
+        ->with('user', AccountManager::currentUser());
     }
 }

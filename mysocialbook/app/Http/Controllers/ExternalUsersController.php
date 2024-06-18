@@ -22,6 +22,8 @@ class ExternalUsersController extends Controller
         $userInfo = UserBL::getSearchedUserInfo($user);
         return view('user')
         ->with('userInfo', $userInfo)
-        ->with('currentUser', $currentUser);
+        ->with('userExt', $user)
+        ->with('currentUser', $currentUser)
+        ->with('user', AccountManager::currentUser());
     }
 }

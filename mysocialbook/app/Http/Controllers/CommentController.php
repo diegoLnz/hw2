@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use App\Extensions\AccountManager;
 
 
 class CommentController extends Controller
@@ -29,6 +30,8 @@ class CommentController extends Controller
         $comment->created_at = now();
         $comment->save();
 
-        return redirect()->back()->with('', 'Commento caricato con successo');
+        return redirect()->back()
+        ->with('success', 'Commento caricato con successo')
+        ->with('user', AccountManager::currentUser());
     }
 }
