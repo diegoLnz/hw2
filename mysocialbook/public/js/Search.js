@@ -46,8 +46,12 @@ function displayUsers(users)
         userDiv.appendChild(userInfo);
         
         var image = document.createElement("img");
+        var imagePath = user.image_path;
         image.classList.add("profile-image");
-        image.src = "images/Generic_User.png";
+        if (imagePath == "")
+            image.classList.add("covered");
+        
+        image.src = imagePath == "" ? "images/Generic_User.png" : "storage/" + imagePath;
         userDiv.appendChild(image);
 
         usersListDiv.appendChild(userDiv);

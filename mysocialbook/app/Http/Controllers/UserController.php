@@ -76,9 +76,11 @@ class UserController extends Controller
 
         foreach ($users as $singleUser)
         {
+
             $usersInfo[] = [
                 'username' => $singleUser->username,
-                'name_surname' => $singleUser->name_surname
+                'name_surname' => $singleUser->name_surname,
+                'image_path' => isset($singleUser->image) ? $singleUser->image->file_path : ""
             ];
         }
 

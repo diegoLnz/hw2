@@ -22,7 +22,8 @@ class FollowersController extends Controller
             $nameAndSurname = $singleUser->userdata->name_surname;
             $usersInfo[] = [
                 'username' => $singleUser->username,
-                'name_surname' => $nameAndSurname
+                'name_surname' => $nameAndSurname,
+                'image_path' => isset($singleUser->image) ? $singleUser->image->file_path : ""
             ];
         }
 

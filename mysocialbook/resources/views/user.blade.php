@@ -46,7 +46,7 @@
                     Followers: {{ $userInfo->followersNum }}
                 </a>
             </div>
-            <img id="profile-image" src="{{ isset($userExt->image) ? asset('storage/'.$userExt->image->file_path) : '' }}" class="{{ isset($userExt->image) ? '' : 'covered'}}"alt="Immagine profilo">
+            <img id="profile-image" src="{{ isset($userExt->image) ? asset('storage/'.$userExt->image->file_path) : asset('images/generic_user.png') }}" class="{{ isset($userExt->image) ? '' : 'covered'}}">
         </div>
 
         <div class="follow-div">
