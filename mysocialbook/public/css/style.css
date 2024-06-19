@@ -575,6 +575,10 @@ p.error-message{
     color: crimson;
 }
 
+img.covered {
+    object-fit: cover !important;
+}
+
 /*MEDIA QUERIES*/
 @media screen and (max-width: 730px) {
 

@@ -11,9 +11,9 @@ class LoginController extends Controller
 {
     public function login()
     {
-        if (!Session::has('user'))
+        if (Session::has('user'))
         {
-            redirect('home');
+            return redirect('home');
         }
 
         $user = AccountManager::currentUser();

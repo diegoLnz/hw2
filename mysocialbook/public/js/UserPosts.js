@@ -28,22 +28,26 @@ function generatePostHTML(postData, container){
 
     let formattedTime = getPostTimeTillNow(postData.publish_date);
 
-    postHTML.appendChild(generatePostHeaderHTML(postData.user.username, formattedTime));
+    postHTML.appendChild(generatePostHeaderHTML(postData.user.username, postData.user.profile_pic.file_path, formattedTime));
     postHTML.appendChild(generatePostContentHTML(postData.post_description, postData.image.file_path, postData.post_id, postData.liked));
     postHTML.appendChild(generatePostFooterHTML(postData.post_id));
 
     container.appendChild(postHTML);
 }
 
-function generatePostHeaderHTML(username, timeTillNow) {
+function generatePostHeaderHTML(username, profilePicPath, timeTillNow) {
     const postHeader = document.createElement('div');
     postHeader.classList.add('post-header');
 
     const userInfo = document.createElement('div');
     userInfo.classList.add('user-info');
 
-    const userImage = document.createElement('div');
+    const userImage = document.createElement('img');
     userImage.classList.add('user-image');
+    if (profilePicPath == "")
+        userImage.classList.add('covered');
+
+    userImage.src = profilePicPath;
     userInfo.appendChild(userImage);
 
     const mainUsername = document.createElement('div');
