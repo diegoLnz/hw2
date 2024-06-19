@@ -70,8 +70,11 @@ input:focus {
 .profile-image {
     height: 50px;
     aspect-ratio: 1;
-    object-fit: cover;
     border-radius: 50%;
+}
+
+.profile-image.covered {
+    object-fit: cover !important;
 }
 
 @media screen and (max-width: 730px) {

@@ -1,7 +1,7 @@
 <section class="content" id="post-container">
 
     <div class="start-thread">
-        <img class="user-image" src="{{ asset('storage/' . $user->image->file_path) }}"></img>
+        <img class="user-image" src="{{ isset($user->image) ? asset('storage/' . $user->image->file_path) : '' }}"></img>
         <div class="start-thread-label">Avvia un thread...</div>
         <div class="publish-btn btn-disabled">Pubblica</div>
         <input type="hidden" id="user-id" value="{{ $user->id }}">

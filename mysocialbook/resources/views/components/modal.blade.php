@@ -7,7 +7,7 @@
         <div class="modal-content">
             <div class="modal-form-div">
                 <div class="user-info">
-                    <img class="user-image" src="{{ asset('storage/' . $user->image->file_path) }}">
+                    <img class="user-image" src="{{ isset($user->image) ? asset('storage/' . $user->image->file_path) : '' }}">
                     <div class="user-section-content">
                         <div class="main-username">
                             <a class="userlink" href="#">{{ Session::get('user') }}</a>

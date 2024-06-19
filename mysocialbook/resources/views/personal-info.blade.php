@@ -41,7 +41,7 @@
                     Followers: {{ $userInfo->followersNum }}
                 </a>
             </div>
-            <img id="profile-image" src="{{ asset('storage/'.$user->image->file_path) }}" alt="Immagine profilo">
+            <img id="profile-image" src="{{ isset($user->image) ? asset('storage/' . $user->image->file_path) : asset('images/generic_user.png') }}" class="{{ isset($user->image) ? '' : 'covered'}}" alt="Immagine profilo">
         </div>
 
         <div class="threads-list-div">
