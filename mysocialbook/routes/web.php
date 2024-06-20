@@ -8,6 +8,7 @@ Route::get('logout', 'App\Http\Controllers\LoginController@logout');
 Route::get('register', 'App\Http\Controllers\RegisterController@register');
 Route::get('users/checkExistingUser/{username}', 'App\Http\Controllers\UserController@checkExistingUser');
 Route::get('nasa/getPicOfTheDay', 'App\Http\Controllers\NasaController@getPicOfTheDay');
+Route::get('nasa/search/{searchString}', 'App\Http\Controllers\NasaController@videoListForSearch');
 Route::get('users/listforsearch/{search}/{user}', 'App\Http\Controllers\UserController@listForSearchForm');
 Route::get('posts/like/{user}/{post}', 'App\Http\Controllers\ThreadController@likeThread');
 Route::get('posts/getByUserId/{id}', 'App\Http\Controllers\ThreadController@getPostsByUserId');
@@ -29,6 +30,7 @@ Route::middleware([CheckAuthenticated::class])->group(function() {
     Route::get('post/{id}', 'App\Http\Controllers\PostDetailController@postDetail');
     Route::get('followers', 'App\Http\Controllers\FollowersController@followersList');
     Route::get('followers/get', 'App\Http\Controllers\FollowersController@getFollowersList');
+    Route::get('nasa-video-library', 'App\Http\Controllers\NasaController@nasaVideoLibrary');
     #endregion
 
     #region Post
