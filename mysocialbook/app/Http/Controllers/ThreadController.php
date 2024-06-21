@@ -12,6 +12,7 @@ use App\BusinessLogic\UserBL;
 use App\BusinessLogic\ThreadBL;
 use App\BusinessLogic\PersonalInfoBL;
 use Illuminate\Http\Request;
+use Storage;
 
 class ThreadController extends Controller
 {
@@ -70,6 +71,38 @@ class ThreadController extends Controller
 
         $user->likePost($post);
         return response()->json(['message' => 'OK', 'error' => 'Hai messo "mi piace" a questo post']);
+    }
+
+    public function deleteThread($postId)
+    {
+        $image = null;
+        $result = true;
+        $post = Post::findOrFail($postId);
+
+        if ($post->user != AccountManager::currentUser())
+        {
+            return ['isSuccess' => false];
+        }
+
+        $post->comments()->delete();
+        $post->likes()->delete();
+
+        if ($post->image)
+        {
+            $image = $post->image;
+        }
+        
+        $result = $post->delete();
+        if ($result && $image)
+        {
+            if (Storage::disk('public')->exists($post->image->file_path))
+            {
+                Storage::disk('public')->delete($post->image->file_path);
+            }
+            $result = $image->delete();
+        }
+
+        return ['isSuccess' => $result];
     }
 
     public function getPostsByUserId($id)

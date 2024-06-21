@@ -28,14 +28,14 @@ function generatePostHTML(postData, container){
 
     let formattedTime = getPostTimeTillNow(postData.publish_date);
 
-    postHTML.appendChild(generatePostHeaderHTML(postData.user.username, postData.user.profile_pic.file_path, formattedTime));
+    postHTML.appendChild(generatePostHeaderHTML(postData.user.username, postData.user.profile_pic.file_path, formattedTime, postData.post_id));
     postHTML.appendChild(generatePostContentHTML(postData.post_description, postData.image.file_path, postData.post_id, postData.liked));
     postHTML.appendChild(generatePostFooterHTML(postData.post_id));
 
     container.appendChild(postHTML);
 }
 
-function generatePostHeaderHTML(username, profilePicPath, timeTillNow) {
+function generatePostHeaderHTML(username, profilePicPath, timeTillNow, postId) {
     const postHeader = document.createElement('div');
     postHeader.classList.add('post-header');
 
@@ -69,6 +69,19 @@ function generatePostHeaderHTML(username, profilePicPath, timeTillNow) {
     uploadDate.textContent = timeTillNow;
     actionsAndDate.appendChild(uploadDate);
 
+    if (window.location.href.includes('personal-info'))
+    {
+        const actionBtn = buildPostActionBtn(postId);
+        actionsAndDate.appendChild(actionBtn);
+    }
+
+    postHeader.appendChild(actionsAndDate);
+
+    return postHeader;
+}
+
+function buildPostActionBtn(postId)
+{
     const actionBtn = document.createElement('div');
     actionBtn.classList.add('action-btn');
     const svgIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -80,11 +93,59 @@ function generatePostHeaderHTML(username, profilePicPath, timeTillNow) {
     path.setAttribute('d', 'M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3');
     svgIcon.appendChild(path);
     actionBtn.appendChild(svgIcon);
-    actionsAndDate.appendChild(actionBtn);
 
-    postHeader.appendChild(actionsAndDate);
+    const dropDown = buildDropDownMenuForPostDelete(postId);
+    actionBtn.appendChild(dropDown);
+    actionBtn.addEventListener('click', () => {
+        ToggleBlockDisplay(dropDown);
+    })
+    document.addEventListener('click', event => {
+        if (!actionBtn.contains(event.target) && !dropDown.contains(event.target))
+        {
+            SetDisplayNone(dropDown);
+        }
+    });
 
-    return postHeader;
+    return actionBtn;
+}
+
+function buildDropDownMenuForPostDelete(postId)
+{
+    const dropDown = document.createElement('div');
+    dropDown.classList.add('dropdown-menu', 'd-none');
+
+    const deleteAction = document.createElement('div');
+    deleteAction.classList.add('dropdown-item');
+    deleteAction.textContent = 'Elimina';
+
+    deleteAction.addEventListener('click', async function(){
+        var actionResult = await deletePost(postId);
+        if (actionResult.isSuccess)
+        {
+            deletePostItemHtml(postId);
+        }
+    });
+
+    dropDown.appendChild(deleteAction);
+    return dropDown;
+}
+
+function deletePostItemHtml(postId)
+{
+    for (child of document.querySelectorAll('.single-post'))
+    {
+        if (child.querySelector('[name=post]').value == postId)
+        {
+            child.remove();
+            break;
+        }
+    }
+}
+
+async function deletePost(postId)
+{
+    return await fetch('posts/delete/' + postId)
+        .then(response => response.json());
 }
 
 function generatePostContentHTML(postBody, postImage, postId, isLiked) {

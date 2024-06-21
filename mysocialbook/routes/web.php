@@ -31,6 +31,7 @@ Route::middleware([CheckAuthenticated::class])->group(function() {
     Route::get('followers', 'App\Http\Controllers\FollowersController@followersList');
     Route::get('followers/get', 'App\Http\Controllers\FollowersController@getFollowersList');
     Route::get('nasa-video-library', 'App\Http\Controllers\NasaController@nasaVideoLibrary');
+    Route::get('posts/delete/{postId}', 'App\Http\Controllers\ThreadController@deleteThread');
     #endregion
 
     #region Post

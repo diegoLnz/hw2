@@ -68,6 +68,16 @@ img.covered {
     padding-top: 20px;
 }
 
+.dropdown-menu {
+    position: absolute;
+    top: 40px;
+    background-color: var(--dropdown-menu-color);
+    backdrop-filter: blur(20px);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
 @media screen and (max-width: 730px) {
     #profile-image {
         max-width: 75px;
