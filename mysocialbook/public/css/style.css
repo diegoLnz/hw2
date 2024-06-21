@@ -414,7 +414,7 @@ header {
 
 .userlink{
     text-decoration: none;
-    color: var(--custom-white);;
+    color: var(--custom-white);
 }
 
 .userlink:hover{

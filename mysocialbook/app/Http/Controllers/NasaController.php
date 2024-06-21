@@ -39,7 +39,7 @@ class NasaController extends Controller
     public function nasaVideoLibrary()
     {
         return view('nasa-video-library')
-        ->with('user', $user = AccountManager::currentUser());
+        ->with('user', AccountManager::currentUser());
     }
 
     public function videoListForSearch(string $searchString)

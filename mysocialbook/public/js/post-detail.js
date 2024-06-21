@@ -25,7 +25,7 @@ function generatePostHTML(postData, container){
 
     postHTML.appendChild(generatePostHeaderHTML(postData.user.username, postData.user.profile_pic.file_path, formattedTime));
     postHTML.appendChild(generatePostContentHTML(postData.post_description, postData.image.file_path, postData.post_id, postData.liked));
-    postHTML.appendChild(generatePostFooterHTML());
+    postHTML.appendChild(generatePostFooterHTML(postData.comments));
 
     container.appendChild(postHTML);
 }
@@ -190,19 +190,44 @@ function generatePostContentHTML(postBody, postImage, postId, isLiked) {
     return postContent;
 }
 
-function generatePostFooterHTML() {
-    const postFooter = document.createElement('div');
-    postFooter.classList.add('post-footer', 'pointed');
+function generatePostFooterHTML(comments) {
+    return buildCommentsSection(comments);
+}
 
-    const usersFooterImages = document.createElement('div');
-    usersFooterImages.classList.add('users-footer-images');
-    const userFooterImage = document.createElement('div');
-    userFooterImage.classList.add('user-footer-image');
+function buildCommentsSection(comments)
+{
+    const section = document.createElement('div');
+    section.id = 'comments-section';
+    comments.forEach(comment => {
+        var item = buildSingleCommentItem(comment);
+        section.appendChild(item);
+    });
 
-    usersFooterImages.appendChild(userFooterImage);
-    postFooter.appendChild(usersFooterImages);
+    return section;
+}
 
-    return postFooter;
+function buildSingleCommentItem(comment)
+{
+    const item = document.createElement('div');
+    item.classList.add('comment-item');
+
+    const username = document.createElement('a');
+    username.classList.add('username-link');
+    username.href = '../user/' + comment.user.username;
+    username.textContent = comment.user.username;
+    item.appendChild(username);
+
+    const content = document.createElement('p');
+    content.classList.add('comment-content');
+    content.textContent = comment.content;
+    item.appendChild(content);
+    
+    const uploadDate = document.createElement('p');
+    uploadDate.classList.add('upload-date');
+    uploadDate.textContent = getPostTimeTillNow(comment.created_at);
+    item.appendChild(uploadDate);
+
+    return item;
 }
 
 function getPostTimeTillNow(time){

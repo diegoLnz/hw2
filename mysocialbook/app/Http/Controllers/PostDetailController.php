@@ -21,7 +21,7 @@ class PostDetailController extends Controller
     public function getDetail($id)
     {
         $post = Post::find($id);
-        $postDetails = ThreadBL::formatPostAsArray($post);
+        $postDetails = ThreadBL::formatPostAsArrayWithComments($post);
         return response()->json($postDetails);
     }
 }
