@@ -43,6 +43,11 @@ class User extends Model
                     ->withTimestamps();
     }
 
+    public function nasaSavedVideos()
+    {
+        return $this->hasMany(NasaSavedVideo::class, 'user_id');
+    }
+
     public function followers()
     {
         return $this->belongsToMany(User::class, "follows", "followed_user_id", "follower_id")

@@ -44,6 +44,13 @@ CREATE TABLE IF NOT EXISTS nasaposts (
     FOREIGN KEY (image_id) REFERENCES nasaimages(id)
 );
 
+CREATE TABLE IF NOT EXISTS nasasavedvideos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    video_path TEXT,
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
 CREATE TABLE IF NOT EXISTS comments (
     id INT AUTO_INCREMENT PRIMARY KEY,
     content TEXT,

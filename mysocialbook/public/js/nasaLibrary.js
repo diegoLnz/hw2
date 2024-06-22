@@ -5,13 +5,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btn.addEventListener('click', async function(){
         container.innerHTML = "";
+        const ul = document.createElement('ul');
+        ul.classList.add('video-list-ul');
+        
         var searchString = input.value;
-        var uris = await getLibraryResponse(searchString);
-
-        uris.forEach(uri => {
-            var videoElement = buildVideoElement(uri);
-            container.appendChild(videoElement);
+        var titles = await getLibraryResponse(searchString);
+        
+        titles.forEach(title => {
+            var titleElement = buildTitleElement(title);
+            ul.appendChild(titleElement);
         });
+        container.appendChild(ul);
     });
 });
 
@@ -19,6 +23,16 @@ async function getLibraryResponse(searchString)
 {
     return await fetch('nasa/search/' + encodeURIComponent(searchString))
         .then(response => response.json());
+}
+
+function buildTitleElement(title)
+{
+    var element = document.createElement('li');
+    var a = document.createElement('a');
+    a.href = 'nasa-video-library/' + title;
+    a.innerHTML = title;
+    element.appendChild(a);
+    return element;
 }
 
 function buildVideoElement(uri)

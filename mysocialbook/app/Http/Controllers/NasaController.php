@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BusinessLogic\NasaBL;
 use App\Extensions\AccountManager;
 use App\Extensions\ApiExtensions;
+use App\Models\NasaSavedVideo;
 
 class NasaController extends Controller
 {
@@ -47,28 +48,48 @@ class NasaController extends Controller
         $jsonResp = NasaBL::getVideoLibraryResponse($searchString);
         $resp = [];
         $counter = 0;
+        $maxItems = 50;
         
         foreach ($jsonResp->collection->items as $item)
         {
-            $itemResp = NasaBL::getResponse($item->href);
-            
-            foreach ($itemResp as $url) {
-                if (substr($url, -4) === '.mp4') {
-                    if ($counter < 50) {
-                        $resp[] = $url;
-                        $counter++;
-                        break;
-                    } else {
-                        break 2;
-                    }
-                }
-            }
-            
-            if ($counter >= 100) {
+            if ($counter >= $maxItems)
                 break;
-            }
+
+            $resp[] = $item->data[0]->title;
+
+            $counter++;
         }
 
         return response()->json($resp);
+    }
+
+    public function getVideoFromTitle($title)
+    {
+        $path = NasaBL::getCollectionPathFromTitle($title);
+        $itemResp = NasaBL::getResponse($path);
+            
+        foreach ($itemResp as $url) {
+            if (substr($url, -4) === '.mp4') {
+                $video = NasaSavedVideo::where('video_path', $url)
+                    ->where('user_id', AccountManager::currentUser()->id)
+                    ->first();
+
+                return view('nasa-video-detail')
+                    ->with(['url' => $url])
+                    ->with(['isLiked' => $video != null])
+                    ->with('user', AccountManager::currentUser());
+            }
+        }
+
+        return view('nasa-video-detail')
+            ->with(['url' => ""])
+            ->with('user', AccountManager::currentUser());
+    }
+
+    public function saveVideo($title)
+    {
+        $path = NasaBL::getCollectionPathFromTitle($title);
+        $result = NasaBL::saveOrDeleteVideo($path);
+        return ['isSuccess' => $result];
     }
 }

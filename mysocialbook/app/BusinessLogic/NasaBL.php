@@ -2,10 +2,12 @@
 
 namespace App\BusinessLogic;
 
+use App\Extensions\AccountManager;
 use App\Extensions\CurlHelper;
 use App\Extensions\NasaConfig;
 use App\Models\NasaImage;
 use App\Models\NasaPost;
+use App\Models\NasaSavedVideo;
 use DB;
 
 class NasaBL
@@ -31,7 +33,7 @@ class NasaBL
     public static function getResponse(string $path)
     {
         $curlHelper = new CurlHelper();
-        $sanitizedPath = str_replace(" ", '%20', $path);
+        $sanitizedPath = self::sanitizeStringForNasa($path);
         $response = $curlHelper->get($sanitizedPath);
         $curlHelper->close();
         return json_decode($response);
@@ -68,5 +70,43 @@ class NasaBL
         ];
         $image = NasaImage::create($img);
         return $image->id;
+    }
+
+    public static function getCollectionPathFromTitle(string $title): string
+    {
+        $sanitizedTitle = self::sanitizeStringForNasa($title);
+        $url = 'https://images-assets.nasa.gov/video/'.$sanitizedTitle.'/collection.json';
+        return $url;
+    }
+
+    public static function sanitizeStringForNasa(string $string): string
+    {
+        $sanitizedString = str_replace(" ", '%20', $string);
+        return $sanitizedString;
+    }
+
+    public static function saveOrDeleteVideo(string $path): bool
+    {
+        $itemResp = self::getResponse($path);
+            
+        foreach ($itemResp as $url) {
+            if (substr($url, -4) === '.mp4') {
+                $video = NasaSavedVideo::where('video_path', $url)
+                    ->where('user_id', AccountManager::currentUser()->id)    
+                    ->first();
+                    
+                if ($video)
+                {
+                    return $video->delete();
+                }
+
+                $video = new NasaSavedVideo();
+                $video->video_path = $url;
+                $video->user_id = AccountManager::currentUser()->id;
+                return $video->save();
+            }
+        }
+
+        return false;
     }
 }
