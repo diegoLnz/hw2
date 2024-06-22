@@ -34,18 +34,3 @@ function buildTitleElement(title)
     element.appendChild(a);
     return element;
 }
-
-function buildVideoElement(uri)
-{
-    var element = document.createElement('video');
-    element.classList.add('video-item');
-    element.controls = true;
-    element.muted = true; 
-    
-    var source = document.createElement('source');
-    source.src = uri;
-    source.type = 'video/mp4';
-    element.appendChild(source);
-
-    return element;
-}

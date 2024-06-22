@@ -31,6 +31,8 @@ Route::middleware([CheckAuthenticated::class])->group(function() {
     Route::get('followers', 'App\Http\Controllers\FollowersController@followersList');
     Route::get('followers/get', 'App\Http\Controllers\FollowersController@getFollowersList');
     Route::get('nasa-video-library', 'App\Http\Controllers\NasaController@nasaVideoLibrary');
+    Route::get('saved-nasa-videos', 'App\Http\Controllers\NasaController@savedVideos');
+    Route::get('nasa/get-saved-videos', 'App\Http\Controllers\NasaController@getSavedVideos');
     Route::get('nasa-video-library/{title}', 'App\Http\Controllers\NasaController@getVideoFromTitle');
     Route::get('nasa/saveVideo/{title}', 'App\Http\Controllers\NasaController@saveVideo');
     Route::get('posts/delete/{postId}', 'App\Http\Controllers\ThreadController@deleteThread');

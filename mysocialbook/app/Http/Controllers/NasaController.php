@@ -62,6 +62,31 @@ class NasaController extends Controller
 
         return response()->json($resp);
     }
+    
+    public function getSavedVideos()
+    {
+        $resp = [];
+        $savedVideos = AccountManager::currentUser()->nasaSavedVideos;
+
+        foreach ($savedVideos as $video)
+        {
+            $parts = explode('/', $video->video_path);
+    
+            if (count($parts) < 2) {
+                return response()->json($resp);
+            }
+
+            $resp[] = $parts[count($parts) - 2];
+        }
+
+        return response()->json($resp);
+    }
+
+    public function savedVideos()
+    {
+        return view('saved-nasa-videos')
+            ->with('user', AccountManager::currentUser());
+    }
 
     public function getVideoFromTitle($title)
     {

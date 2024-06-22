@@ -44,7 +44,8 @@
         </svg>
         <div id="dropdown-menu" class="dropdown-menu d-none">
             <div class="dropdown-item" id="logout">Esci</div>
-            <div class="dropdown-item" onclick="window.location.href = 'http:\/\/127.0.0.1:8000/nasa-video-library'">Nasa video library</div>
+            <div class="dropdown-item" onclick="window.location.href = 'http:\/\/127.0.0.1:8000/nasa-video-library'">Nasa - Video library</div>
+            <div class="dropdown-item" onclick="window.location.href = 'http:\/\/127.0.0.1:8000/saved-nasa-videos'">Nasa - Video salvati</div>
         </div>
     </div>
     
