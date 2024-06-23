@@ -55,7 +55,18 @@ class NasaController extends Controller
             if ($counter >= $maxItems)
                 break;
 
-            $resp[] = $item->data[0]->title;
+            $parts = explode('/', $item->href);
+
+            if (count($parts) < 2) {
+                continue;
+            }
+
+            $collectionTitle = $parts[count($parts) - 2];
+
+            if ($item->data[0]->title == $collectionTitle)
+            {
+                $resp[] = $item->data[0]->title;
+            }
 
             $counter++;
         }
@@ -92,7 +103,12 @@ class NasaController extends Controller
     {
         $path = NasaBL::getCollectionPathFromTitle($title);
         $itemResp = NasaBL::getResponse($path);
-            
+        
+        if (!$itemResp)
+        {
+            return redirect()->back();
+        }
+
         foreach ($itemResp as $url) {
             if (substr($url, -4) === '.mp4') {
                 $video = NasaSavedVideo::where('video_path', $url)
