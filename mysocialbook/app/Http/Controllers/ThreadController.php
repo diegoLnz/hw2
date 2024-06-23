@@ -119,8 +119,10 @@ class ThreadController extends Controller
         return response()->json($posts, 200);
     }
 
-    public function getFollowedUsersPosts($id)
+    public function getFollowedUsersPosts($id, $page)
     {
+        $perPage = 5;
+        $offset = ($page - 1) * $perPage;
         $userId = $id;
         if (!$userId){
             response()->json(['message' => 'KO', 'error' => 'Parametri mancanti'], 400);
@@ -133,7 +135,12 @@ class ThreadController extends Controller
 
         $followedUserIds = $user->followings()->pluck('followed_user_id');
 
-        $postList = Post::whereIn('user_id', $followedUserIds)->orderBy('publish_date', 'desc')->get();
+        $postList = Post::whereIn('user_id', $followedUserIds)
+            ->orderBy('publish_date', 'desc')
+            ->limit($perPage)
+            ->offset($offset)
+            ->get();
+            
         $posts = [];
 
         foreach ($postList as $post)

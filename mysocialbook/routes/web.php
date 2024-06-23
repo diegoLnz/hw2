@@ -12,7 +12,7 @@ Route::get('nasa/search/{searchString}', 'App\Http\Controllers\NasaController@vi
 Route::get('users/listforsearch/{search}/{user}', 'App\Http\Controllers\UserController@listForSearchForm');
 Route::get('posts/like/{user}/{post}', 'App\Http\Controllers\ThreadController@likeThread');
 Route::get('posts/getByUserId/{id}', 'App\Http\Controllers\ThreadController@getPostsByUserId');
-Route::get('posts/getFollowedUsersPosts/{id}', 'App\Http\Controllers\ThreadController@getFollowedUsersPosts');
+Route::get('posts/getFollowedUsersPosts/{id}/{page}', 'App\Http\Controllers\ThreadController@getFollowedUsersPosts');
 Route::get('posts/getLiked', 'App\Http\Controllers\ThreadController@getLikedPosts');
 Route::get('posts/get-detail/{id}', 'App\Http\Controllers\PostDetailController@getDetail');
 Route::get('users/follow/{user}/{follow}', 'App\Http\Controllers\UserController@followUser');

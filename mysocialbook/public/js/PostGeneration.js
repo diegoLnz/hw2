@@ -1,7 +1,13 @@
 var baseUrl = "posts/getFollowedUsersPosts/";
 var userId = document.getElementById("user-id").value;
+var pageNumber = 1;
 
 document.addEventListener("DOMContentLoaded", async function(){
+    window.addEventListener('scroll', checkScroll);
+});
+
+async function loadPosts()
+{
     const postContainer = document.getElementById('post-container');
 
     const instaPosts = await getPosts(userId);
@@ -14,10 +20,11 @@ document.addEventListener("DOMContentLoaded", async function(){
     });
 
     setCommentSection();
-});
+    pageNumber++;
+}
 
 async function getPosts(userId){
-    return await fetch(`${baseUrl}${userId}`)
+    return await fetch(`${baseUrl}${userId}/${pageNumber}`)
       .then(response => response.json());
 }
 
@@ -355,4 +362,23 @@ function buildCommentForm(userId, postId)
         }
     });
     return commentForm;
+}
+
+// function getPageNumber()
+// {
+//     const perPage = 5;
+//     const postsNumber = document.querySelectorAll('.single-post').length;
+//     return Math.ceil(postsNumber / perPage);
+// }
+
+function checkScroll()
+{
+    var scrollTop = window.scrollY;
+    var scrollHeight = document.documentElement.scrollHeight;
+    var clientHeight = window.innerHeight;
+
+    if (scrollTop + clientHeight >= scrollHeight)
+    {
+        loadPosts();
+    }
 }
