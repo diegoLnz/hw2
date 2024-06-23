@@ -141,54 +141,7 @@ function generatePostContentHTML(postBody, postImage, postId, isLiked) {
 
     postContent.appendChild(actionsMenu);
 
-    const commentForm = document.createElement('form');
-    commentForm.method = "POST";
-    commentForm.action = "comments/upload";
-
-    const userIdInput = document.createElement('input');
-    userIdInput.type = "hidden";
-    userIdInput.name = "user";
-    userIdInput.value = userId;
-
-    const postIdInput = document.createElement('input');
-    postIdInput.type = "hidden";
-    postIdInput.name = "post";
-    postIdInput.value = postId;
-
-    const tokenInput = generateTokenInput();
-
-    commentForm.appendChild(tokenInput);
-    commentForm.appendChild(userIdInput);
-    commentForm.appendChild(postIdInput);
-
-    const commentDiv = document.createElement('div');
-    commentDiv.classList.add("comment-input-container", "d-none");
-    const commentInput = document.createElement("input");
-    commentInput.classList.add("comment-input");
-    commentInput.placeholder = "Scrivi un commento...";
-    commentInput.type = "text";
-    commentInput.name = "comment_content";
-    const commentBtn = document.createElement('button');
-    commentBtn.classList.add("submit-comment", "disabled");
-    commentBtn.innerHTML = "Invia";
-    commentBtn.disabled = true;
-    
-    commentInput.addEventListener("input", () => {
-        if(commentInput.value != "")
-        {
-            commentBtn.disabled = false;
-            commentBtn.classList.remove("disabled");
-            return;
-        }
-
-        commentBtn.disabled = true;
-        commentBtn.classList.add("disabled");
-    });
-
-    commentDiv.appendChild(commentInput);
-    commentDiv.appendChild(commentBtn);
-
-    commentForm.appendChild(commentDiv);
+    const commentForm = buildCommentForm(userId, postId);
     postContent.appendChild(commentForm);
 
     return postContent;
@@ -324,4 +277,82 @@ function generateTokenInput()
 function copyLink(link)
 {
     navigator.clipboard.writeText(link);
+}
+
+function buildCommentForm(userId, postId)
+{
+    const commentForm = document.createElement('form');
+    commentForm.method = "POST";
+    commentForm.action = "comments/upload";
+
+    const userIdInput = document.createElement('input');
+    userIdInput.type = "hidden";
+    userIdInput.name = "user";
+    userIdInput.value = userId;
+
+    const postIdInput = document.createElement('input');
+    postIdInput.type = "hidden";
+    postIdInput.name = "post";
+    postIdInput.value = postId;
+
+    const tokenInput = generateTokenInput();
+
+    commentForm.appendChild(tokenInput);
+    commentForm.appendChild(userIdInput);
+    commentForm.appendChild(postIdInput);
+
+    const commentDiv = document.createElement('div');
+    commentDiv.classList.add("comment-input-container", "d-none");
+    const commentInput = document.createElement("input");
+    commentInput.classList.add("comment-input");
+    commentInput.placeholder = "Scrivi un commento...";
+    commentInput.type = "text";
+    commentInput.name = "comment_content";
+    const commentBtn = document.createElement('button');
+    commentBtn.classList.add("submit-comment", "disabled");
+    commentBtn.innerHTML = "Invia";
+    commentBtn.disabled = true;
+    
+    commentInput.addEventListener("input", () => {
+        if(commentInput.value != "")
+        {
+            commentBtn.disabled = false;
+            commentBtn.classList.remove("disabled");
+            return;
+        }
+
+        commentBtn.disabled = true;
+        commentBtn.classList.add("disabled");
+    });
+
+    commentDiv.appendChild(commentInput);
+    commentDiv.appendChild(commentBtn);
+
+    commentForm.appendChild(commentDiv);
+
+    commentForm.addEventListener('submit', async event => {
+        event.preventDefault();
+
+        var formData = new FormData(commentForm);
+        
+        try
+        {
+            var result = await fetch('comments/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json());
+
+            if (result.isSuccess)
+            {
+                commentForm.reset();
+                alert('Commento salvato con successo');
+            }
+
+        } catch (error)
+        {
+            alert('Errore durante il salvataggio di un commento');
+        }
+    });
+    return commentForm;
 }

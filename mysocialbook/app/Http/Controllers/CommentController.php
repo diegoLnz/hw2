@@ -28,10 +28,7 @@ class CommentController extends Controller
         $comment->post_id = $requestData['post'];
         $comment->content = $requestData['comment_content'];
         $comment->created_at = now();
-        $comment->save();
 
-        return redirect()->back()
-        ->with('success', 'Commento caricato con successo')
-        ->with('user', AccountManager::currentUser());
+        return response()->json(['isSuccess' => $comment->save()]);
     }
 }
