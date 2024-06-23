@@ -58,8 +58,17 @@ class ImageUploader {
             mkdir($directory);
         }
 
-        $files = File::allFiles($directory);
-        $fileCount = count($files);
-        return 'post' . ($fileCount + 1) . '.' . $file->getClientOriginalExtension();
+        $relativeDirectory = str_replace('storage/', '', $directory);
+        $baseName = 'post';
+        $extension = $file->getClientOriginalExtension();
+        $counter = 1;
+
+        do {
+            $fileName = $baseName . $counter . '.' . $extension;
+            $filePath = $relativeDirectory . '/' . $fileName;
+            $counter++;
+        } while (Storage::disk('public')->exists($filePath));
+
+        return $fileName;
     }
 }

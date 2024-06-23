@@ -27,7 +27,7 @@ class ThreadController extends Controller
             $result = $uploader->upload($request, 'file');
     
             if ($result['error'] !== "") 
-                return redirect()->back();
+                return response()->json(['isSuccess' => false]);
     
             $filename = basename($result['path']);
     
@@ -45,11 +45,8 @@ class ThreadController extends Controller
         $post->post_description = $request->post('description');
         $post->publish_date = now();
         $post->user_id = $user->id;
-        $post->save();
 
-        return redirect()->back()
-        ->with('success', 'Post creato con successo')
-        ->with('user', AccountManager::currentUser());
+        return response()->json(['isSuccess' => $post->save()]);
     }
 
     public function likeThread($userId, $postId)

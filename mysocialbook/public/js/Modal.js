@@ -68,6 +68,7 @@ function SetUploadScript()
     const imagePreview = document.getElementById('image-preview');
     const removeImageButton = document.getElementById('remove-image-button');
     const publishBtn = document.getElementById('submit-thread');
+    const form = document.getElementById('thread-form');
 
     uploadButton.addEventListener('click', () => {
         fileInput.click();
@@ -109,6 +110,34 @@ function SetUploadScript()
             publishBtn.classList.add('btn-disabled');
             publishBtn.disabled = true;
         }
+    });
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        var formData = new FormData(form);
+        var modal = document.getElementById("new-thread-modal");
+
+        try
+        {
+            var result = await fetch('http://127.0.0.1:8000/posts/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json());
+
+            if (result.isSuccess)
+            {
+                SetDisplayNone(modal);
+                ResetNewThreadForm();
+                alert('Post salvato con successo');
+            }
+
+        } catch (error)
+        {
+            alert('Errore durante il salvataggio di un thread');
+        }
+
     });
 }
 

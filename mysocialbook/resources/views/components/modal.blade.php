@@ -1,4 +1,4 @@
-<form action="http://127.0.0.1:8000/posts/upload" method="POST" enctype="multipart/form-data">
+<form action="http://127.0.0.1:8000/posts/upload" method="POST" enctype="multipart/form-data" id="thread-form">
     @csrf
     <div id="new-thread-modal" class="modal d-none">
         <div id="new-thread-text-div">
