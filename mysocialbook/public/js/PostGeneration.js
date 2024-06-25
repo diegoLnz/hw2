@@ -19,7 +19,7 @@ async function loadPosts()
         generatePostHTML(post, postContainer);
     });
 
-    setCommentSection();
+    //setCommentSection();
     pageNumber++;
 }
 
@@ -380,5 +380,6 @@ function checkScroll()
     if (scrollTop + clientHeight >= scrollHeight)
     {
         loadPosts();
+        setCommentSection();
     }
 }
